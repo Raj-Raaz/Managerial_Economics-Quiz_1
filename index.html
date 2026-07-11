@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Managerial Economics — Master Notebook & PYQ Vault</title>
+<script>
+  MathJax = {
+    tex: {inlineMath: [['\\(', '\\)']], displayMath: [['\\[','\\]']]}, // Removed $ to prevent text breaking
+    svg: {fontCache: 'global'}
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  :root{
+    --bg:#f8fafc; --surface:#ffffff; --text:#0f172a; --muted:#64748b;
+    --primary:#2563eb; --primary-light:#eff6ff; --accent:#7c3aed;
+    --success:#16a34a; --success-light:#f0fdf4; --warning:#d97706;
+    --danger:#dc2626; --border:#e2e8f0; --code-bg:#1e293b; --code-text:#e2e8f0;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.7;
+    overflow-wrap:break-word; word-wrap:break-word;
+  }
+  
+  .main-content{margin:0 auto; padding:40px; max-width:1100px}
+  
+  /* Header */
+  .main-header{
+    background:linear-gradient(135deg, #1e3a8a 0%, #4c1d95 100%);
+    color:#ffffff; padding:40px; border-radius:16px; margin-bottom:32px;
+    box-shadow:0 10px 25px -5px rgba(37, 99, 235, 0.3);
+  }
+  .main-header h1{font-size:2.2rem; margin-bottom:8px; color:#ffffff}
+  .main-header p{color:#f1f5f9; font-size:1.1rem; font-weight:500; opacity:1;}
+  .main-header .badges{margin-top:16px; display:flex; gap:8px; flex-wrap:wrap}
+  .main-header .badge{
+    background:rgba(255,255,255,0.25); padding:4px 12px; border-radius:20px;
+    font-size:0.8rem; color:#ffffff; border:1px solid rgba(255,255,255,0.4)
+  }
+  
+  /* Tabs */
+  .tabs-container{
+    display:flex; gap:10px; margin-bottom:24px; border-bottom:2px solid var(--border);
+    justify-content: center; flex-wrap:wrap;
+  }
+  .tab-btn{
+    padding:12px 24px; background:none; border:none; cursor:pointer;
+    font-size:1rem; font-weight:600; color:var(--muted); border-bottom:3px solid transparent;
+    margin-bottom:-2px; transition:all 0.2s;
+  }
+  .tab-btn.active{color:var(--primary); border-bottom-color:var(--primary);}
+  .tab-content{display:none}
+  .tab-content.active{display:block}
+  
+  /* Sections */
+  section{margin-bottom:50px; scroll-margin-top:20px}
+  h2{
+    font-size:1.8rem; color:var(--text); margin-bottom:8px;
+    display:flex; align-items:center; gap:12px; padding-bottom:12px; border-bottom:2px solid var(--border)
+  }
+  h2 .icon{
+    width:36px; height:36px; background:var(--primary-light); color:var(--primary);
+    border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.2rem;
+    flex-shrink:0;
+  }
+  h3{font-size:1.3rem; color:var(--text); margin:24px 0 12px}
+  h4{font-size:1.1rem; color:var(--primary); margin:16px 0 8px}
+  p{margin-bottom:12px; color:#334155}
+  
+  /* Concept Cards */
+  .concept-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin:16px 0}
+  .concept-card{
+    background:var(--surface); padding:20px; border-radius:12px;
+    border:1px solid var(--border); box-shadow:0 1px 3px rgba(0,0,0,0.05); transition:transform 0.2s, box-shadow 0.2s
+  }
+  .concept-card:hover{transform:translateY(-2px); box-shadow:0 8px 15px -3px rgba(0,0,0,0.1)}
+  .concept-card h4{margin-top:0}
+  .concept-card.leontief{border-left:4px solid var(--warning)}
+  .concept-card.cobb{border-left:4px solid var(--success)}
+  .concept-card.linear{border-left:4px solid var(--primary)}
+  
+  /* Formula Box */
+  .formula-box{
+    background:var(--code-bg); color:var(--code-text); padding:16px 20px;
+    border-radius:8px; margin:12px 0; font-family:'Fira Code', monospace;
+    overflow-x:auto; border-left:4px solid var(--accent);
+    white-space: pre-wrap;
+  }
+  
+  /* Callouts */
+  .callout{
+    padding:16px; border-radius:8px; margin:16px 0; display:flex; gap:14px;
+    align-items:flex-start;
+  }
+  .callout.tip{background:var(--success-light); border:1px solid #bbf7d0}
+  .callout.warn{background:#fef2f2; border:1px solid #fecaca}
+  .callout.info{background:var(--primary-light); border:1px solid #bfdbfe}
+  .callout .icon{font-size:1.4rem; line-height:1.4; flex-shrink:0;}
+  
+  /* Figures (SVG) */
+  .graph-container {
+    background:var(--surface); border:1px solid var(--border); border-radius:8px;
+    padding:20px; margin:20px 0; text-align:center; overflow-x:auto;
+  }
+  .graph-caption { font-size:0.85rem; color:var(--muted); margin-top:12px; font-style:italic; }
+  
+  /* PYQ Vault Styling */
+  .topic-block{
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    margin-bottom:24px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.05)
+  }
+  .topic-header{
+    padding:16px 20px; background:#f1f5f9; border-bottom:1px solid var(--border);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .topic-header h3{margin:0; font-size:1.1rem; display:flex; align-items:center; gap:8px}
+  .topic-header .meta{font-size:0.8rem; color:var(--muted); font-weight:600}
+  
+  .pyq-card{
+    border-bottom:1px solid #f1f5f9; padding:20px; transition:background 0.2s
+  }
+  .pyq-card:last-child{border-bottom:none}
+  .pyq-card:hover{background:#f8fafc}
+  .pyq-tags{display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap}
+  .tag{
+    font-size:0.7rem; padding:3px 8px; border-radius:4px; font-weight:600;
+    text-transform:uppercase; letter-spacing:0.5px
+  }
+  .tag.year{background:#e0e7ff; color:#3730a3}
+  .tag.marks{background:#f3e8ff; color:#6b21a8}
+  .tag.qid{background:#f1f5f9; color:#64748b}
+  
+  .pyq-context {
+    background:#fffbeb; border-left:3px solid var(--warning);
+    padding:12px 14px; font-size:0.9rem; margin-bottom:12px; color:#78350f;
+    border-radius:4px;
+  }
+  .pyq-question{font-weight:500; margin-bottom:8px; color:#1e293b; font-size:0.95rem}
+  .pyq-options{margin-left:0; margin-bottom:8px; font-size:0.9rem; color:var(--muted); list-style:none}
+  .pyq-options li{padding:6px 0; border-bottom:1px solid #f8fafc;}
+  
+  /* Reveal Button & Answer */
+  .reveal-btn{
+    background:var(--primary); color:#fff; border:none; padding:8px 18px;
+    border-radius:6px; cursor:pointer; font-size:0.85rem; font-weight:600; margin-top:10px;
+    transition:background 0.2s;
+  }
+  .reveal-btn:hover{background:#1d4ed8}
+  .pyq-answer{
+    display:none; background:var(--success-light); border-left:3px solid var(--success);
+    padding:12px 14px; border-radius:4px; font-size:0.9rem; color:#14532d; margin-top:10px;
+  }
+  .pyq-answer b{color:#047857}
+  
+  /* Tables */
+  table{width:100%; border-collapse:collapse; margin:16px 0; font-size:0.9rem}
+  th,td{padding:12px 14px; text-align:left; border-bottom:1px solid var(--border)}
+  th{background:#f8fafc; color:#475569; font-weight:600}
+  tr:hover{background:#f8fafc}
+  
+  /* Disclaimer */
+  .disclaimer {
+    background:#fef2f2; border:1px solid #fee2e2; color:#991b1b;
+    padding:14px 20px; border-radius:8px; margin-bottom:24px; font-weight:500;
+    display:flex; align-items:center; gap:10px;
+  }
+
+  /* Cheat Sheet Specifics */
+  .cheat-grid {
+    display:grid; grid-template-columns: 1fr 1fr; gap:20px;
+  }
+  @media(max-width:768px){ .cheat-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="main-content">
+  <header class="main-header">
+    <h1>Managerial Economics Master Notebook</h1>
+    <p>Concepts explained from zero + Topic-wise Previous Year Questions (PYQs) solved + Cheat Sheet.</p>
+    <div class="badges">
+      <span class="badge">5 Quiz Papers Covered</span>
+      <span class="badge">Exact Verbatim Questions</span>
+      <span class="badge">No Negative Marking</span>
+      <span class="badge">Zero Text Overlap</span>
+    </div>
+  </header>
+
+  <!-- Tab Buttons -->
+  <div class="tabs-container">
+    <button class="tab-btn active" onclick="showTab('concepts')">🧠 Concepts (Zero to Hero)</button>
+    <button class="tab-btn" onclick="showTab('pyqs')">📚 PYQ Vault (All Papers)</button>
+    <button class="tab-btn" onclick="showTab('cheatsheet')">⚡ Cheat Sheet & Tips</button>
+  </div>
+
+  <!-- ===================== CONCEPTS TAB ===================== -->
+  <div id="concepts" class="tab-content active">
+    
+    <section id="prod">
+      <h2><span class="icon">🏭</span> Production Functions</h2>
+      <div class="callout info">
+        <div class="icon">💡</div>
+        <div><b>Definition:</b> A technological relationship showing the maximum output \( q \) produced from inputs capital \( K \) and labour \( L \): \( q = f(K, L) \).</div>
+      </div>
+      <div class="concept-grid">
+        <div class="concept-card cobb">
+          <h4>① Cobb-Douglas</h4>
+          <p>\( q = A K^\alpha L^\beta \)</p>
+          <ul>
+            <li>Smooth, convex isoquants.</li>
+            <li>Exhibits any returns to scale (depends on \( \alpha+\beta \)).</li>
+            <li>Both MPL and MPK <b>diminish</b> as input increases.</li>
+          </ul>
+        </div>
+        <div class="concept-card leontief">
+          <h4>② Leontief (Fixed Proportions)</h4>
+          <p>\( q = \min(aK, bL) \)</p>
+          <ul>
+            <li>L-shaped isoquants ("Perfect complements").</li>
+            <li>Inputs must be used in a fixed ratio.</li>
+            <li><b>Example:</b> "Exactly 2 workers per machine."</li>
+          </ul>
+        </div>
+        <div class="concept-card linear">
+          <h4>③ Linear (Perfect Substitutes)</h4>
+          <p>\( q = aK + bL \)</p>
+          <ul>
+            <li>Straight-line isoquants.</li>
+            <li>Constant MRTS. One input can replace another at a fixed rate.</li>
+            <li><b>Example:</b> "Trade 3 labour for 1 capital, output constant."</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="mp">
+      <h2><span class="icon">📊</span> Marginal Product & MRTS</h2>
+      <div class="formula-box">
+        \( MP_L = \frac{\partial q}{\partial L} \) (Extra output from +1 Labour, holding K constant)
+        \( MP_K = \frac{\partial q}{\partial K} \) (Extra output from +1 Capital, holding L constant)
+        \( MRTS_{L \text{ for } K} = \frac{MP_L}{MP_K} \) (Slope of isoquant)
+      </div>
+      <div class="callout warn">
+        <div class="icon">⚠️</div>
+        <div><b>Exam Trap:</b> Always check "other inputs held constant." If the question says "allowing other inputs to vary," that is <b>WRONG</b>. Marginal product strictly requires ceteris paribus.</div>
+      </div>
+      <h4>The Relationship Between Marginal and Average</h4>
+      <ul>
+        <li>If \( MP_L > AP_L \), \( AP_L \) is rising.</li>
+        <li>If \( MP_L < AP_L \), \( AP_L \) is falling.</li>
+        <li>If \( MP_L = AP_L \), \( AP_L \) is at its maximum.</li>
+      </ul>
+    </section>
+
+    <section id="rts">
+      <h2><span class="icon">📈</span> Returns to Scale</h2>
+      <p>What happens to output when <b>all inputs</b> are scaled by factor \( t \)?</p>
+      <ul>
+        <li><b>Constant (CRS):</b> Output scales by exactly \( t \).</li>
+        <li><b>Increasing (IRS):</b> Output scales by more than \( t \).</li>
+        <li><b>Decreasing (DRS):</b> Output scales by less than \( t \).</li>
+      </ul>
+      <div class="formula-box">
+        For Cobb-Douglas \( q = A K^\alpha L^\beta \): scale by \( t \rightarrow q' = A(tK)^\alpha (tL)^\beta = t^{\alpha+\beta}q \).
+        Returns to scale depends entirely on \( \alpha+\beta \).
+      </div>
+    </section>
+
+    <section id="costmin">
+      <h2><span class="icon">💰</span> Cost Minimization (Isoquants & Isocosts)</h2>
+      <div class="concept-grid">
+        <div class="concept-card">
+          <h4>Isoquant</h4>
+          <p>Combinations of \( L \) and \( K \) that produce the <b>same output</b> \( q \).<br>Slope = \( -MRTS \).</p>
+        </div>
+        <div class="concept-card">
+          <h4>Isocost Line</h4>
+          <p>Combinations of \( L \) and \( K \) with the <b>same total cost</b>: \( C = wL + rK \).<br>Slope = \( -w/r \).</p>
+        </div>
+      </div>
+      <div class="formula-box">
+        <b>Optimal Condition (Tangency):</b>
+        Slope of Isoquant = Slope of Isocost
+        \( MRTS = \frac{MP_L}{MP_K} = \frac{w}{r} \)
+        
+        <b>Corner Solution (Linear PF):</b>
+        If \( MRTS > w/r \), use ONLY Labour.
+        If \( MRTS < w/r \), use ONLY Capital.
+      </div>
+      <div class="graph-container">
+        <svg width="350" height="220" viewBox="0 0 350 220" style="max-width:100%;">
+          <!-- Axes -->
+          <line x1="40" y1="180" x2="320" y2="180" style="stroke:#333;stroke-width:2" />
+          <line x1="40" y1="180" x2="40" y2="20" style="stroke:#333;stroke-width:2" />
+          <text x="325" y="185" fill="#333" font-size="14">K</text>
+          <text x="20" y="20" fill="#333" font-size="14">L</text>
+          <!-- Isocost -->
+          <line x1="40" y1="50" x2="250" y2="180" style="stroke:#dc2626;stroke-width:2" />
+          <text x="170" y="90" fill="#dc2626" font-size="12" transform="rotate(33, 170, 90)">Isocost (C=wL+rK)</text>
+          <!-- Isoquant -->
+          <path d="M 90 180 Q 110 110 190 50" style="stroke:#2563eb;stroke-width:2;fill:none;" />
+          <text x="130" y="140" fill="#2563eb" font-size="12" transform="rotate(-45, 130, 140)">Isoquant (q)</text>
+          <!-- Tangency Point -->
+          <circle cx="140" cy="115" r="5" fill="#000" />
+          <text x="150" y="115" fill="#000" font-size="12">Optimal (L*, K*)</text>
+        </svg>
+        <div class="graph-caption">Figure: Cost Minimization occurs where Isocost is tangent to Isoquant.</div>
+      </div>
+    </section>
+
+    <section id="costs">
+      <h2><span class="icon">🏷️</span> Cost Theory (Short Run vs Long Run)</h2>
+      <div class="formula-box">
+        \( TC = FC + VC \)
+        \( MC = \frac{dTC}{dq} = \frac{dVC}{dq} \)
+        \( AFC = \frac{FC}{q} \) | \( AVC = \frac{VC}{q} \) | \( ATC = \frac{TC}{q} \)
+      </div>
+      <div class="callout tip">
+        <div class="icon">🎯</div>
+        <div>
+          <b>The "Marginal Pulls the Average" Rule:</b><br>
+          If \( MC < ATC \), ATC is falling.<br>
+          If \( MC > ATC \), ATC is rising.<br>
+          If \( MC = ATC \), ATC is at its <b>MINIMUM</b>. (Same logic applies to MC and AVC).
+        </div>
+      </div>
+      <h4>Short Run vs Long Run</h4>
+      <ul>
+        <li><b>Short Run:</b> At least one input is fixed (usually Capital \( K \)). Hence, we have Fixed Costs.</li>
+        <li><b>Long Run:</b> All inputs are variable. No fixed costs. \( TC = LTC \). The Long Run Average Cost (LRAC) curve is an envelope of Short Run Average Cost (SRAC) curves.</li>
+        <li><b>Economies of Scale:</b> When LRAC falls as output increases. (Due to specialization, bulk buying).</li>
+        <li><b>Diseconomies of Scale:</b> When LRAC rises as output increases. (Due to managerial inefficiencies).</li>
+      </ul>
+    </section>
+
+    <section id="budget">
+      <h2><span class="icon">⚖️</span> Budget Line & Consumer Theory</h2>
+      <div class="formula-box">
+        Equation: \( P_x \cdot x + P_y \cdot y = I \)
+        Slope \( = -\frac{P_x}{P_y} \)
+        X-intercept \( = \frac{I}{P_x} \) | Y-intercept \( = \frac{I}{P_y} \)
+      </div>
+      <ul>
+        <li><b>Price Change:</b> Alters the slope and one intercept. (Pivot of the line).</li>
+        <li><b>Income Change:</b> Alters both intercepts but slope remains same. (Parallel shift).</li>
+      </ul>
+    </section>
+
+    <section id="prefs">
+      <h2><span class="icon">🧠</span> Preferences & Utility</h2>
+      <h4>Axioms of Rational Preferences:</h4>
+      <ul>
+        <li><b>Completeness:</b> Consumer can compare any two bundles. (Violation: "confused, unable to compare")</li>
+        <li><b>Transitivity:</b> If A>B and B>C, then A>C. (Violation: "Mango>Apple, Apple>Guava, Guava>Mango")</li>
+        <li><b>Convexity:</b> Averages preferred to extremes. Implies diminishing MRS. Leontief (perfect complements) is <b>not strictly convex</b>.</li>
+        <li><b>Monotonicity:</b> More is better. (Utility increases with quantity).</li>
+      </ul>
+      <h4>Marginal Utility (MU)</h4>
+      <p>\( MU_x = \frac{\partial U}{\partial x} \). At consumer optimum: \( \frac{MU_x}{P_x} = \frac{MU_y}{P_y} \).</p>
+    </section>
+
+    <section id="ocost">
+      <h2><span class="icon">🔄</span> Opportunity & Sunk Cost</h2>
+      <div class="callout info">
+        <div class="icon">💡</div>
+        <div>
+          <b>Opportunity Cost:</b> Value of the next-best alternative foregone.<br>
+          <b>Sunk Cost:</b> Unrecoverable past cost (ignore in forward-looking decisions).<br>
+          <b>Explicit Cost:</b> Out-of-pocket cash payments.<br>
+          <b>Implicit Cost:</b> Foregone value of self-owned resources (e.g., foregone salary).
+        </div>
+      </div>
+      <p><b>Economic Profit</b> = Total Revenue - Explicit Costs - Implicit Costs.<br>
+      <b>Accounting Profit</b> = Total Revenue - Explicit Costs.</p>
+    </section>
+    
+  </div>
+
+  <!-- ===================== PYQ VAULT TAB ===================== -->
+  <div id="pyqs" class="tab-content">
+    
+    <div class="disclaimer">
+      ⚠️ <span><b>Note:</b> Answers may be subject to human error. Please cross-check with your own calculations.</span>
+    </div>
+
+    <!-- Topic: Production Functions -->
+    <div class="topic-block">
+      <div class="topic-header"><h3>🏭 Production Functions</h3><span class="meta">6 Questions</span></div>
+      
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q230</span></div>
+        <div class="pyq-question">The Cobb-Douglas production function F(K, L)=K<sup>p</sup>L<sup>q</sup></div>
+        <ul class="pyq-options">
+          <li>A. Shows only constant returns to scale</li>
+          <li>B. Shows Increasing, decreasing or constant returns to scale based on the value of p+q</li>
+          <li>C. Has constant marginal product of labour</li>
+          <li>D. Has constant marginal product of capital</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> B. Shows Increasing, decreasing or constant returns to scale based on the value of p+q</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T2</span><span class="tag marks">1 Mark</span><span class="tag qid">Q166</span></div>
+        <div class="pyq-question">(Image-based question context missing in text, assumed standard properties)</div>
+        <ul class="pyq-options">
+          <li>A. Both MPL and MPK are constant</li>
+          <li>B. MPL is increasing but MPK is constant</li>
+          <li>C. MPL is decreasing and MPK is constant</li>
+          <li>D. Both MPL and MPK are decreasing</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> C (Depends on exact function, typically derived from graph)</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T2 & 2026 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q167 / Q3</span></div>
+        <div class="pyq-question">A firm can always trade three units of labour for one unit of capital and still keep output constant. The production technology for this firm can most suitably represented by</div>
+        <ul class="pyq-options">
+          <li>A. Cobb-Douglas production function</li>
+          <li>B. Leontief production function</li>
+          <li>C. Linear production function</li>
+          <li>D. None</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> C. Linear production function</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T2 & 2026 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q168 / Q4</span></div>
+        <div class="pyq-question">A firm finds that it requires exactly two full-time workers to operate each piece of machinery in the factory. The production technology for this firm can most suitably represented by</div>
+        <ul class="pyq-options">
+          <li>A. Cobb-Douglas production function</li>
+          <li>B. Leontief production function</li>
+          <li>C. Linear production function</li>
+          <li>D. None</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> B. Leontief production function</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2026 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q2</span></div>
+        <div class="pyq-question">For the production function q = 4K<sup>1/2</sup> + 4L</div>
+        <ul class="pyq-options">
+          <li>A. Both MPL and MPK are constant</li>
+          <li>B. MPK is decreasing but MPL is constant</li>
+          <li>C. MPL is decreasing and MPK is constant</li>
+          <li>D. Both MPL and MPK are decreasing</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> B. MPK is decreasing but MPL is constant <i>(Since MP<sub>L</sub>=4, MP<sub>K</sub>=2K<sup>-1/2</sup>)</i></div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2025 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q226</span></div>
+        <div class="pyq-question">For the Cobb-Douglas production function:</div>
+        <ul class="pyq-options">
+          <li>A. May exhibit constant returns to scale</li>
+          <li>B. Shows Increasing returns to scale if p + q = 1</li>
+          <li>C. Has constant marginal product of labour</li>
+          <li>D. Has constant marginal product of capital</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> A. May exhibit constant returns to scale</div>
+      </div>
+    </div>
+
+    <!-- Topic: MP & MRTS -->
+    <div class="topic-block">
+      <div class="topic-header"><h3>📊 MP & MRTS</h3><span class="meta">3 Questions</span></div>
+      
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T1, 2024 T2, 2025 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q233 / Q169 / Q227</span></div>
+        <div class="pyq-question">The marginal product of labour is defined as</div>
+        <ul class="pyq-options">
+          <li>A. a firm’s total output divided by total labour input</li>
+          <li>B. the extra output produced by employing one more unit of labour while allowing other inputs to vary</li>
+          <li>C. the extra output produced by employing one more unit of labour while holding other inputs constant</li>
+          <li>D. the extra output produced by employing one more unit of capital while holding labour input constant</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> C. the extra output produced by employing one more unit of labour while holding other inputs constant</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2026 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q5</span></div>
+        <div class="pyq-question">The marginal product of capital is defined as</div>
+        <ul class="pyq-options">
+          <li>A. a firm’s total output divided by total labour input</li>
+          <li>B. the extra output produced by employing one more unit of labour while allowing other inputs to vary</li>
+          <li>C. the extra output produced by employing one more unit of labour while holding other inputs constant</li>
+          <li>D. the extra output produced by employing one more unit of capital while holding other input constant</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> D. the extra output produced by employing one more unit of capital while holding other input constant</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2026 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q19</span></div>
+        <div class="pyq-question">The marginal product of labour in the production of chips is 50 kg chips per hour. The marginal rate of technical substitution of hours of labour for hours of machine capital is 1/4. What is the marginal product of capital in kg per hour? (only write the no.) __________</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> 200 <i>(1/4 = 50/MP_K => MP_K = 200)</i></div>
+      </div>
+    </div>
+
+    <!-- Topic: Cost Minimization -->
+    <div class="topic-block">
+      <div class="topic-header"><h3>💰 Cost Minimization</h3><span class="meta">5 Question Sets</span></div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T1</span><span class="tag marks">6 Marks</span><span class="tag qid">Q235-237</span></div>
+        <div class="pyq-context"><b>Context:</b> A chair manufacturer hires its assembly-line labour for ₹30 an hour and calculates that the rental cost of its machinery is ₹15 per hour. Suppose that a chair can be produced using 4 hours of labour or machinery in any combination.</div>
+        <div class="pyq-question">Q235: If the firm is currently using 3 hours of labour for each hour of machine time, is it minimizing its costs of production?</div>
+        <ul class="pyq-options">
+          <li>A. Yes</li>
+          <li>B. No</li>
+        </ul>
+        <div class="pyq-question">Q236: If not, what will be the optimal combination of labour L*=______________</div>
+        <div class="pyq-question">Q237: If not, what will be the optimal combination of capital K*=_____________</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> Q235: No | Q236: 0 | Q237: 4</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T1</span><span class="tag marks">7 Marks</span><span class="tag qid">Q238-241</span></div>
+        <div class="pyq-context"><b>Context:</b> The production function for a product is given by q = 100KL If the price of capital is INR 1200 per day and the price of labour INR 300 per day.</div>
+        <div class="pyq-question">Q238: What will be the optimal capital-labour ratio ______________</div>
+        <div class="pyq-question">Q239: Optimal level of Labour (L*) for producing 10000 units of output will be____________</div>
+        <div class="pyq-question">Q240: Optimal level of capital (K*) for producing 10000 units of output will be_______________</div>
+        <div class="pyq-question">Q241: Minimized cost corresponding to 10000 units of output will be ____________</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> Q238: 0.25 | Q239: 20 | Q240: 5 | Q241: 12000</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T2, 2026 T1</span><span class="tag marks">2 Marks</span><span class="tag qid">Q171 / Q10</span></div>
+        <div class="graph-container">
+          <svg width="350" height="220" viewBox="0 0 350 220" style="max-width:100%;">
+            <line x1="40" y1="180" x2="320" y2="180" style="stroke:#333;stroke-width:2" />
+            <line x1="40" y1="180" x2="40" y2="20" style="stroke:#333;stroke-width:2" />
+            <text x="325" y="185" fill="#333" font-size="14">K</text>
+            <text x="20" y="20" fill="#333" font-size="14">L</text>
+            <line x1="40" y1="50" x2="250" y2="180" style="stroke:#dc2626;stroke-width:2" />
+            <path d="M 90 180 Q 110 110 190 50" style="stroke:#2563eb;stroke-width:2;fill:none;" />
+            <circle cx="140" cy="115" r="5" fill="#000" />
+            <text x="155" y="120" fill="#000" font-size="12">L=20, K=5</text>
+          </svg>
+          <div class="graph-caption">Figure: Isocost and Isoquant intersection (as typically shown in exam)</div>
+        </div>
+        <div class="pyq-question">(Based on Figure) What is the cost-minimizing input combination?</div>
+        <ul class="pyq-options">
+          <li>A. 5, 20</li>
+          <li>B. 20, 5</li>
+          <li>C. 20, 10</li>
+          <li>D. 10, 20</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> B. 20, 5</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2025 T1</span><span class="tag marks">5 Marks</span><span class="tag qid">Q214-215</span></div>
+        <div class="pyq-context"><b>Context:</b> Based on figure provided in exam.</div>
+        <div class="pyq-question">Q214: What is the cost-minimizing input combination if the firm wants to produce 1,000 units per year? L* = _________________</div>
+        <div class="pyq-question">Q215: What is the cost-minimizing input combination if the firm wants to produce 1,000 units per year? K* = _________________</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> Q214: L* = 40 | Q215: K* = 10</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2025 T1 & 2025 T2</span><span class="tag marks">5 Marks</span><span class="tag qid">Q218-222 / Q269-273</span></div>
+        <div class="pyq-context"><b>Context 2025T1:</b> Marginal Product of Labour MPL = 10, MPK = 2. Target q=200. <br><b>Context 2025T2:</b> Marginal Product of Labour MPL = 5, MPK = 2. Target q=200.</div>
+        <div class="pyq-question">Find L*, K*, and Total Cost.</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer">
+          <b>Ans (2025 T1):</b> L*=20, K*=0, Cost=₹100 <br>
+          <b>Ans (2025 T2):</b> L*=0, K*=100, Cost=₹200
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic: Cost Theory -->
+    <div class="topic-block">
+      <div class="topic-header"><h3>🏷️ Cost Theory</h3><span class="meta">4 Question Sets</span></div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T1, 2024 T2, 2025 T1, 2026 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q234 / Q170 / Q228 / Q6</span></div>
+        <div class="pyq-question">If marginal costs equal average total costs</div>
+        <ul class="pyq-options">
+          <li>A. average total costs are falling</li>
+          <li>B. average total costs are maximized</li>
+          <li>C. average total costs are rising</li>
+          <li>D. average total costs are minimized</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> D. average total costs are minimized</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T1</span><span class="tag marks">3 Marks</span><span class="tag qid">Q246-248</span></div>
+        <div class="pyq-context"><b>Context:</b> The short run cost function of a company is given by the equation TC=100+25q+q<sup>2</sup>, where TC is total cost and q is no of units produced.</div>
+        <div class="pyq-question">Q246: What will be the average fixed cost if company produces 100 units ___________________</div>
+        <div class="pyq-question">Q247: What is marginal cost of company at q=25? _______________</div>
+        <div class="pyq-question">Q248: What is average variable cost at q=25?__________________</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> Q246: 1 | Q247: 75 | Q248: 50</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T2, 2026 T1</span><span class="tag marks">2 Marks</span><span class="tag qid">Q172-173 / Q20-21</span></div>
+        <div class="pyq-context"><b>Context:</b> The short-run cost function of a company is given by the equation TC = 200 + 55q, where TC is the total cost and q is the total quantity of output.</div>
+        <div class="pyq-question">Q172: What is the company’s fixed cost?__________</div>
+        <div class="pyq-question">Q173: If the company produced 100 units of goods, what would be its average variable cost? ___________</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> Q172: 200 | Q173: 55</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2025 T1 & 2025 T2</span><span class="tag marks">3 Marks</span><span class="tag qid">Q223-225 / Q266-268</span></div>
+        <div class="pyq-context"><b>Context 2025T1:</b> Given AFC(100)=2, MC(25)=100, AVC(25)=75.<br><b>Context 2025T2:</b> Given AFC(50)=6, MC(50)=150, AVC(50)=100.</div>
+        <div class="pyq-question">Verify the values based on reverse engineering the cost function.</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer">
+          <b>Ans (2025 T1):</b> TC = 200 + 50q + q² -> AFC(100)=2, MC(25)=100, AVC(25)=75 <br>
+          <b>Ans (2025 T2):</b> TC = 300 + 50q + q² -> AFC(50)=6, MC(50)=150, AVC(50)=100
+        </div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2026 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q7</span></div>
+        <div class="pyq-question">When average product is decreasing in labor, marginal product is greater than average product.</div>
+        <ul class="pyq-options">
+          <li>A. True</li>
+          <li>B. False</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> B. False <i>(When AP is decreasing, MP < AP)</i></div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2026 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q8</span></div>
+        <div class="pyq-question">When average product is increasing in labor, marginal product is less than average product.</div>
+        <ul class="pyq-options">
+          <li>A. True</li>
+          <li>B. False</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> B. False <i>(When AP is increasing, MP > AP)</i></div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2026 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q9</span></div>
+        <div class="pyq-question">When average product APL is at a maximum, then marginal product is equal to average product</div>
+        <ul class="pyq-options">
+          <li>A. True</li>
+          <li>B. False</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> A. True</div>
+      </div>
+    </div>
+
+    <!-- Topic: Budget Line -->
+    <div class="topic-block">
+      <div class="topic-header"><h3>⚖️ Budget Line & Consumer Theory</h3><span class="meta">1 Question Set</span></div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T2 & 2026 T1</span><span class="tag marks">5 Marks</span><span class="tag qid">Q176-180 / Q14-18</span></div>
+        <div class="pyq-context"><b>Context:</b> Consider two goods, coconut and fish with prices Pc = 20 and Pf = 10. Robin has an income I= 1000 and he consumes only these two goods. With the help of the plot of his budget line taking fish on the Y-axis.</div>
+        <div class="graph-container">
+          <svg width="300" height="220" viewBox="0 0 300 220" style="max-width:100%;">
+            <line x1="40" y1="180" x2="280" y2="180" style="stroke:#333;stroke-width:2" />
+            <line x1="40" y1="180" x2="40" y2="20" style="stroke:#333;stroke-width:2" />
+            <text x="285" y="185" fill="#333" font-size="14">C</text>
+            <text x="15" y="20" fill="#333" font-size="14">F</text>
+            <line x1="40" y1="30" x2="190" y2="180" style="stroke:#2563eb;stroke-width:2" />
+            <text x="150" y="190" fill="#333" font-size="12">50</text>
+            <text x="20" y="35" fill="#333" font-size="12">100</text>
+          </svg>
+          <div class="graph-caption">Figure: Budget Line (Slope = -2)</div>
+        </div>
+        <div class="pyq-question">Q176/Q14: The slope of the budget line is</div>
+        <ul class="pyq-options">
+          <li>A. -2</li>
+          <li>B. +2</li>
+          <li>C. -1/2</li>
+          <li>D. +1/2</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> A. -2</div>
+
+        <div class="pyq-question">Q177/Q15: Intercepts on the axis are</div>
+        <ul class="pyq-options">
+          <li>A. 50 on X-axis and 100 on Y-axis</li>
+          <li>B. 100 on X-axis and 50 on Y-axis</li>
+          <li>C. 50 on X-axis and 20 on Y-axis</li>
+          <li>D. 20 on X-axis and 50 on Y-axis</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> A. 50 on X-axis and 100 on Y-axis</div>
+
+        <div class="pyq-question">Q178/Q16: If keeping income unchanged, price of the coconut is halved, what will be the new slope of the budget line</div>
+        <ul class="pyq-options">
+          <li>A. -2</li>
+          <li>B. +1</li>
+          <li>C. -1</li>
+          <li>D. +2</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> C. -1</div>
+
+        <div class="pyq-question">Q179/Q17: New intercepts on the axis are</div>
+        <ul class="pyq-options">
+          <li>A. 50 on X-axis and 50 on Y-axis</li>
+          <li>B. 100 on X-axis and 50 on Y-axis</li>
+          <li>C. 100 on X-axis and 100 on Y-axis</li>
+          <li>D. 10 on X-axis and 100 on Y-axis</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> C. 100 on X-axis and 100 on Y-axis</div>
+
+        <div class="pyq-question">Q180/Q18: If income is halved keeping the original prices unchanged</div>
+        <ul class="pyq-options">
+          <li>A. Slope remains same and both intercepts are doubled</li>
+          <li>B. Slope remains same and both intercepts are halved</li>
+          <li>C. Slope changes and both intercepts are doubled</li>
+          <li>D. Slope changes and both intercepts remain same</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> B. Slope remains same and both intercepts are halved</div>
+      </div>
+    </div>
+
+    <!-- Topic: Preferences -->
+    <div class="topic-block">
+      <div class="topic-header"><h3>🧠 Preferences</h3><span class="meta">4 Questions</span></div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q231</span></div>
+        <div class="pyq-question">When one is not able to compare two goods and is confused about which one to choose, his preference violates</div>
+        <ul class="pyq-options">
+          <li>A. Completeness</li>
+          <li>B. Reflexivity</li>
+          <li>C. Transitivity</li>
+          <li>D. All of these</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> A. Completeness</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T1</span><span class="tag marks">1 Mark</span><span class="tag qid">Q232</span></div>
+        <div class="pyq-question">When a person prefers Mango to Apple, Apple to Guava and Guava to Mango, his preference violates</div>
+        <ul class="pyq-options">
+          <li>A. Completeness</li>
+          <li>B. Reflexivity</li>
+          <li>C. Transitivity</li>
+          <li>D. Convexity</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> C. Transitivity</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T1 & 2025 T1</span><span class="tag marks">2 Marks</span><span class="tag qid">Q242-243 / Q216-217</span></div>
+        <div class="pyq-context"><b>Context:</b> Elmo finds himself at a Coke machine on a hot and dusty Sunday. The Coke machine requires exact change-two quarters and a dime. No other combination of coins will make anything come out of the machine. No stores are open; no one is in sight. Elmo is so thirsty that the only thing he cares about is how many soft drinks he will be able to buy with the change in his pocket; the more he can buy, the better.</div>
+        <div class="pyq-question">Q242: If Elmo has 2 quarters and a dime in his pockets, he can buy 1 soft drink. How many soft drinks can he buy if he has 4 quarters and 2 dimes?____________</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> 2</div>
+        
+        <div class="pyq-question">Q243: Does Elmo have convex preferences between dimes and quarters?</div>
+        <ul class="pyq-options">
+          <li>A. Yes</li>
+          <li>B. No</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> B. No <i>(Leontief preferences are not strictly convex)</i></div>
+      </div>
+    </div>
+
+    <!-- Topic: Opportunity & Sunk Cost -->
+    <div class="topic-block">
+      <div class="topic-header"><h3>🔄 Opportunity & Sunk Cost</h3><span class="meta">3 Question Sets</span></div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2025 T1, 2025 T2, 2026 T1</span><span class="tag marks">2 Marks</span><span class="tag qid">Q208-209</span></div>
+        <div class="pyq-context"><b>Context:</b> Imagine that you have started a snack food delivery business on your college campus. Students send you orders for snacks, such as potato chips and candy bars, via the Internet. You shop at local grocery stores to fill these orders and then deliver the orders. To operate this business, you pay ₹500 a month to lease computer time from a local Web-hosting company to use its server to host and maintain your website. You also own a sports utility vehicle (SUV) that you use to make deliveries. Your monthly car payment is ₹300, and you pay ₹100 a month in insurance costs. Each order that you fill takes, on average, a half hour and consumes ₹0.50 worth of gasoline. When you fill an order, you pay the grocer for the merchandise. You then collect a payment, including a delivery fee, from the students to whom you sell. If you did not operate this business, you could work at the campus dining hall, earning ₹6 an hour. Right now, you operate your business five days a week, Monday through Friday. On weekends, your business is idle, and you work in the campus dining hall.</div>
+        <div class="pyq-question">Q208: Your explicit costs include</div>
+        <ul class="pyq-options">
+          <li>A. Leasing computer time</li>
+          <li>B. Gasoline</li>
+          <li>C. Money you pay grocers</li>
+          <li>D. All of these</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> D. All of these</div>
+
+        <div class="pyq-question">Q209: Your implicit cost will be</div>
+        <ul class="pyq-options">
+          <li>A. ₹300 car payment</li>
+          <li>B. ₹100 a month insurance cost</li>
+          <li>C. Your wage at campus dining hall ₹6 an hour</li>
+          <li>D. All of these</li>
+        </ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> C. Your wage at campus dining hall ₹6 an hour</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2024 T1 & 2025 T1</span><span class="tag marks">2 Marks</span><span class="tag qid">Q244-245 / Q210-212</span></div>
+        <div class="pyq-context"><b>Context:</b> Last week you purchased five large cases of Fritos for a customer who, as it turned out, did not accept delivery. You paid ₹100 for these cases. You have a deal with your grocers that they will pay you ₹0.25 for each dollar of returned merchandise. Just this week, you found a fraternity on campus that will buy the five cartons for ₹55 (and will pick them up from your apartment, relieving you of the need to deliver them to the frat house).</div>
+        <div class="pyq-question">Q244: What is the opportunity cost of filling this order (i.e., selling these cartons to the fraternity)?_____________(in ₹)</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> 25</div>
+        
+        <div class="pyq-question">Q245: Should you sell the Fritos to the fraternity?</div>
+        <ul class="pyq-options"><li>A. Yes</li><li>B. No</li></ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> A. Yes</div>
+        
+        <div class="pyq-question">Q212 (2025T1): Your sunk cost of doing business is (in ₹) ____________________</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> 75</div>
+      </div>
+
+      <div class="pyq-card">
+        <div class="pyq-tags"><span class="tag year">2025 T2 & 2026 T1</span><span class="tag marks">2 Marks</span><span class="tag qid">Q259-260 / Q24-25</span></div>
+        <div class="pyq-context"><b>Context:</b> Last week you purchased five large cases of Fritos for a customer who, as it turned out, did not accept delivery. You paid ₹200 for these cases. You have a deal with your grocers that they will pay you ₹0.5 for each dollar of returned merchandise. Just this week, you found a fraternity on campus that will buy the five cartons for ₹125 (and will pick them up from your apartment, relieving you of the need to deliver them to the frat house).</div>
+        <div class="pyq-question">Q259: What is the opportunity cost of filling this order in ₹ (i.e., selling these cartons to the fraternity)? _______________</div>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> 100</div>
+        
+        <div class="pyq-question">Q260: Should you sell the Fritos to the fraternity?______________</div>
+        <ul class="pyq-options"><li>A. Yes</li><li>B. No</li></ul>
+        <button class="reveal-btn" onclick="revealAnswer(this)">Reveal Answer</button>
+        <div class="pyq-answer"><b>Ans:</b> A. Yes</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===================== CHEAT SHEET TAB ===================== -->
+  <div id="cheatsheet" class="tab-content">
+    <div class="callout info">
+      <div class="icon">🚀</div>
+      <div><b>How to use this:</b> Memorize the formulas and the "Pattern Recognition" table. Before submitting any exam, run through the "Exam Traps" section to ensure you haven't fallen for standard trick questions.</div>
+    </div>
+
+    <div class="cheat-grid">
+      <div class="concept-card" style="border-left:4px solid var(--primary);">
+        <h4>🧮 Core Formulas</h4>
+        <ul>
+          <li><b>Production:</b> \( q = f(K,L) \)</li>
+          <li><b>MPL:</b> \( \partial q / \partial L \)</li>
+          <li><b>MPK:</b> \( \partial q / \partial K \)</li>
+          <li><b>MRTS:</b> \( MP_L / MP_K \)</li>
+          <li><b>Cost Min:</b> \( MP_L / MP_K = w / r \)</li>
+          <li><b>TC:</b> \( FC + VC \)</li>
+          <li><b>MC:</b> \( dTC/dq \)</li>
+          <li><b>ATC:</b> \( TC/q \)</li>
+          <li><b>AVC:</b> \( VC/q \)</li>
+          <li><b>AFC:</b> \( FC/q \)</li>
+          <li><b>Budget Slope:</b> \( -P_x / P_y \)</li>
+          <li><b>X-Intercept:</b> \( I / P_x \)</li>
+          <li><b>Consumer Optimum:</b> \( MU_x / P_x = MU_y / P_y \)</li>
+        </ul>
+      </div>
+
+      <div class="concept-card" style="border-left:4px solid var(--success);">
+        <h4>🎯 Pattern Recognition</h4>
+        <table>
+          <tr><th>If Question Says / Asks...</th><th>Answer / Concept</th></tr>
+          <tr><td>MC = ATC</td><td>ATC is minimized</td></tr>
+          <tr><td>Trade X labor for Y capital</td><td>Linear PF</td></tr>
+          <tr><td>Exactly N workers per machine</td><td>Leontief PF</td></tr>
+          <tr><td>Cobb-Douglas returns to scale</td><td>Depends on p+q</td></tr>
+          <tr><td>Unable to compare two goods</td><td>Violates Completeness</td></tr>
+          <tr><td>Cyclic prefs (A>B>C>A)</td><td>Violates Transitivity</td></tr>
+          <tr><td>Opp. cost of selling</td><td>Next-best alternative price</td></tr>
+          <tr><td>Corner solution (Linear PF)</td><td>Use cheaper input only</td></tr>
+        </table>
+      </div>
+
+      <div class="concept-card" style="border-left:4px solid var(--danger);">
+        <h4>🚨 Common Exam Traps</h4>
+        <ul>
+          <li><b>"MPL with other inputs allowed to vary":</b> WRONG. Marginal product strictly holds other inputs constant.</li>
+          <li><b>"Cobb-Douglas has constant MPL/MPK":</b> WRONG. Both diminish.</li>
+          <li><b>Confusing AFC with AVC:</b> AFC always falls continuously. AVC is U-shaped.</li>
+          <li><b>MC intersects ATC at minimum:</b> Not maximum. Minimum!</li>
+          <li><b>Forgetting corner solutions:</b> For Linear PF \( q = aK + bL \), you almost never use both inputs. Compare MRTS to w/r and pick one.</li>
+          <li><b>Opportunity Cost vs Sunk Cost:</b> Opportunity cost is what you give up *now* (next best alternative). Sunk cost is unrecoverable and must be ignored.</li>
+          <li><b>Budget Line Slope Sign:</b> Always negative.</li>
+          <li><b>"Elmo has convex preferences?":</b> No. Perfect complements (Leontief) are weakly convex, not strictly convex.</li>
+        </ul>
+      </div>
+
+      <div class="concept-card" style="border-left:4px solid var(--warning);">
+        <h4>⏱️ Exam Day Tips</h4>
+        <ul>
+          <li><b>No negative marking:</b> Never leave a question blank. Guess if you must!</li>
+          <li><b>Read "Average" vs "Marginal" carefully:</b> The wording is the biggest trick in cost theory questions.</li>
+          <li><b>Reverse Engineering Cost Functions:</b> If given AFC, MC, AVC at specific quantities, assume \( TC = a + bq + cq^2 \). 
+            <br>- \( FC = AFC \times q \)
+            <br>- \( MC = b + 2cq \)
+            <br>- \( AVC = b + cq \)
+            <br>Solve using simultaneous equations.
+          </li>
+          <li><b>Cost Minimization Steps:</b> 1) Find MRTS. 2) Compare to w/r. 3) If equal, use tangency. 4) If unequal, use corner solution (0 for one input). 5) Plug into production function to find exact L* and K*.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function showTab(tabId) {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    // Remove active from all buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    // Show selected tab
+    document.getElementById(tabId).classList.add('active');
+    
+    // Add active to clicked button
+    if(tabId === 'concepts') {
+      document.querySelectorAll('.tab-btn')[0].classList.add('active');
+    } else if(tabId === 'pyqs') {
+      document.querySelectorAll('.tab-btn')[1].classList.add('active');
+    } else {
+      document.querySelectorAll('.tab-btn')[2].classList.add('active');
+    }
+  }
+
+  function revealAnswer(btn) {
+    // Find the parent card
+    const card = btn.parentElement;
+    // Find the answer div within this card
+    const answer = card.querySelector('.pyq-answer');
+    // Toggle display
+    if (answer.style.display === 'block') {
+      answer.style.display = 'none';
+      btn.textContent = 'Reveal Answer';
+    } else {
+      answer.style.display = 'block';
+      btn.textContent = 'Hide Answer';
+    }
+  }
+</script>
+
+</body>
+</html>
