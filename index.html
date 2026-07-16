@@ -21,13 +21,98 @@
         .section-card {
             scroll-margin-top: 2rem;
         }
+
+        /* ---- PYQ reveal-answer system ---- */
+        .pyq-opt {
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            transition: background-color .15s, border-color .15s, color .15s;
+        }
+        .pyq-mcq.revealed .pyq-opt[data-correct] {
+            background-color: #ecfdf5;
+            border-color: #6ee7b7;
+            color: #065f46;
+            font-weight: 600;
+        }
+        .pyq-mcq.revealed .pyq-opt[data-correct]::before {
+            content: "\2713  ";
+        }
+        .reveal-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #1d4ed8;
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 9999px;
+            padding: 0.3rem 0.75rem;
+            cursor: pointer;
+        }
+        .reveal-btn:hover { background-color: #dbeafe; }
+        .reveal-btn.is-revealed { color: #64748b; background-color: #f1f5f9; border-color: #e2e8f0; }
+        .reveal-chip {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #1d4ed8;
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 9999px;
+            padding: 0.15rem 0.6rem;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .reveal-chip:hover { background-color: #dbeafe; }
+        .pyq-val { cursor: pointer; margin-left: 0.5rem; }
+        .pyq-val:hover { opacity: 0.7; }
+        td .pyq-val, td .reveal-chip { margin-left: 0; }
     </style>
+    <script>
+        function pyqRevealMcq(btn) {
+            var ul = document.getElementById(btn.dataset.target);
+            var nowRevealed = ul.classList.toggle('revealed');
+            btn.textContent = nowRevealed ? 'Hide answer' : 'Reveal answer';
+            btn.classList.toggle('is-revealed', nowRevealed);
+        }
+        function pyqRevealChip(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.getElementById(id + '-btn').classList.add('hidden');
+        }
+        function pyqHideChip(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id + '-btn').classList.remove('hidden');
+        }
+        function pyqRevealAll(show) {
+            document.querySelectorAll('.pyq-mcq').forEach(function(ul){
+                ul.classList.toggle('revealed', show);
+            });
+            document.querySelectorAll('.reveal-btn').forEach(function(btn){
+                btn.textContent = show ? 'Hide answer' : 'Reveal answer';
+                btn.classList.toggle('is-revealed', show);
+            });
+            document.querySelectorAll('.pyq-val').forEach(function(el){
+                el.classList.toggle('hidden', !show);
+            });
+            document.querySelectorAll('.reveal-chip').forEach(function(el){
+                el.classList.toggle('hidden', show);
+            });
+        }
+    </script>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
     <!-- Top Navigation for Mobile -->
-    <div class="md:hidden bg-blue-700 text-white p-4 sticky top-0 z-50 shadow-md">
+    <div class="md:hidden bg-blue-700 text-white p-4 sticky top-0 z-50 shadow-md flex items-center justify-between gap-3">
         <h1 class="text-xl font-bold">Managerial Econ Notebook</h1>
+        <div class="flex gap-1.5 shrink-0">
+            <button type="button" onclick="pyqRevealAll(false)" class="text-xs font-semibold bg-blue-800 hover:bg-blue-900 rounded-md px-2 py-1.5">🙈 Hide</button>
+            <button type="button" onclick="pyqRevealAll(true)" class="text-xs font-semibold bg-white text-blue-700 hover:bg-blue-50 rounded-md px-2 py-1.5">👁️ Reveal</button>
+        </div>
     </div>
 
     <div class="max-w-7xl mx-auto md:px-6 py-6 md:py-10">
@@ -48,6 +133,13 @@
                             <a href="#pyq-index" class="nav-link block px-3 py-2 rounded-md text-slate-600 hover:bg-slate-50 transition-colors">📋 PYQ Answer Key Index</a>
                         </div>
                     </nav>
+                    <div class="mt-4 pt-4 border-t border-slate-100 px-3">
+                        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">Study mode</p>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="pyqRevealAll(false)" class="flex-1 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-md py-2 transition-colors">🙈 Hide all</button>
+                            <button type="button" onclick="pyqRevealAll(true)" class="flex-1 text-xs font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-md py-2 transition-colors">👁️ Reveal all</button>
+                        </div>
+                    </div>
                 </div>
             </aside>
 
@@ -186,48 +278,52 @@
                                                 <p class="font-medium text-slate-800">A firm can always trade three units of labour for one unit of capital and still keep output constant. The production technology for this firm can most suitably represented by</p>
                                                 <span class="shrink-0 text-[11px] font-semibold bg-slate-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2024 T2</span>
                                             </div>
-                                            <ul class="text-sm space-y-1">
-                                                <li class="px-3 py-1 rounded text-slate-600">Cobb-Douglas production function</li>
-                                                <li class="px-3 py-1 rounded text-slate-600">Leontief production function</li>
-                                                <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ Linear production function</li>
-                                                <li class="px-3 py-1 rounded text-slate-600">None</li>
-                                            </ul>
+                                            <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-1">
+<li class="px-3 py-1 rounded pyq-opt">Cobb-Douglas production function</li>
+<li class="px-3 py-1 rounded pyq-opt">Leontief production function</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">Linear production function</li>
+<li class="px-3 py-1 rounded pyq-opt">None</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-1" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                         </div>
                                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
                                             <div class="flex items-start justify-between gap-3 mb-2">
                                                 <p class="font-medium text-slate-800">A firm can always trade three units of labour for one unit of capital and still keep output constant. The production technology for this firm can most suitably represented by</p>
                                                 <span class="shrink-0 text-[11px] font-semibold bg-slate-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2026 T1</span>
                                             </div>
-                                            <ul class="text-sm space-y-1">
-                                                <li class="px-3 py-1 rounded text-slate-600">Cobb-Douglas production function</li>
-                                                <li class="px-3 py-1 rounded text-slate-600">Leontief production function</li>
-                                                <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ Linear production function</li>
-                                                <li class="px-3 py-1 rounded text-slate-600">None of these</li>
-                                            </ul>
+                                            <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-2">
+<li class="px-3 py-1 rounded pyq-opt">Cobb-Douglas production function</li>
+<li class="px-3 py-1 rounded pyq-opt">Leontief production function</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">Linear production function</li>
+<li class="px-3 py-1 rounded pyq-opt">None of these</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-2" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                         </div>
                                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
                                             <div class="flex items-start justify-between gap-3 mb-2">
                                                 <p class="font-medium text-slate-800">A firm finds that it requires exactly two full-time workers to operate each piece of machinery in the factory. The production technology for this firm can most suitably represented by</p>
                                                 <span class="shrink-0 text-[11px] font-semibold bg-slate-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2024 T2</span>
                                             </div>
-                                            <ul class="text-sm space-y-1">
-                                                <li class="px-3 py-1 rounded text-slate-600">Cobb-Douglas production function</li>
-                                                <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ Leontief production function</li>
-                                                <li class="px-3 py-1 rounded text-slate-600">Linear production function</li>
-                                                <li class="px-3 py-1 rounded text-slate-600">None</li>
-                                            </ul>
+                                            <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-3">
+<li class="px-3 py-1 rounded pyq-opt">Cobb-Douglas production function</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">Leontief production function</li>
+<li class="px-3 py-1 rounded pyq-opt">Linear production function</li>
+<li class="px-3 py-1 rounded pyq-opt">None</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-3" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                         </div>
                                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
                                             <div class="flex items-start justify-between gap-3 mb-2">
                                                 <p class="font-medium text-slate-800">A firm finds that it requires exactly two full-time workers to operate each piece of machinery in the factory. The production technology for this firm can most suitably represented by</p>
                                                 <span class="shrink-0 text-[11px] font-semibold bg-slate-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2026 T1</span>
                                             </div>
-                                            <ul class="text-sm space-y-1">
-                                                <li class="px-3 py-1 rounded text-slate-600">Cobb-Douglas production function</li>
-                                                <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ Leontief production function</li>
-                                                <li class="px-3 py-1 rounded text-slate-600">Linear production function</li>
-                                                <li class="px-3 py-1 rounded text-slate-600">None of these</li>
-                                            </ul>
+                                            <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-4">
+<li class="px-3 py-1 rounded pyq-opt">Cobb-Douglas production function</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">Leontief production function</li>
+<li class="px-3 py-1 rounded pyq-opt">Linear production function</li>
+<li class="px-3 py-1 rounded pyq-opt">None of these</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-4" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                         </div>
                                     </div>
                                 </div>
@@ -243,24 +339,26 @@
                                                 <span class="text-[11px] font-semibold bg-slate-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2025 T1</span>
                                             </span>
                                         </div>
-                                        <ul class="text-sm space-y-1">
-                                            <li class="px-3 py-1 rounded text-slate-600">a firm's total output divided by total labour input</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">the extra output produced by employing one more unit of labour while allowing other inputs to vary</li>
-                                            <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ the extra output produced by employing one more unit of labour while holding other inputs constant</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">the extra output produced by employing one more unit of capital while holding labour input constant</li>
-                                        </ul>
+                                        <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-5">
+<li class="px-3 py-1 rounded pyq-opt">a firm's total output divided by total labour input</li>
+<li class="px-3 py-1 rounded pyq-opt">the extra output produced by employing one more unit of labour while allowing other inputs to vary</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">the extra output produced by employing one more unit of labour while holding other inputs constant</li>
+<li class="px-3 py-1 rounded pyq-opt">the extra output produced by employing one more unit of capital while holding labour input constant</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-5" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                     </div>
                                     <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mt-2">
                                         <div class="flex items-start justify-between gap-3 mb-2">
                                             <p class="font-medium text-slate-800">The marginal product of capital is defined as</p>
                                             <span class="shrink-0 text-[11px] font-semibold bg-slate-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2026 T1</span>
                                         </div>
-                                        <ul class="text-sm space-y-1">
-                                            <li class="px-3 py-1 rounded text-slate-600">a firm's total output divided by total labour input</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">the extra output produced by employing one more unit of labour while allowing other inputs to vary</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">the extra output produced by employing one more unit of labour while holding other inputs constant</li>
-                                            <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ the extra output produced by employing one more unit of capital while holding other input constant</li>
-                                        </ul>
+                                        <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-6">
+<li class="px-3 py-1 rounded pyq-opt">a firm's total output divided by total labour input</li>
+<li class="px-3 py-1 rounded pyq-opt">the extra output produced by employing one more unit of labour while allowing other inputs to vary</li>
+<li class="px-3 py-1 rounded pyq-opt">the extra output produced by employing one more unit of labour while holding other inputs constant</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">the extra output produced by employing one more unit of capital while holding other input constant</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-6" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                     </div>
                                 </div>
 
@@ -271,24 +369,26 @@
                                             <p class="font-medium text-slate-800">The Cobb-Douglas production function \( F(K, L) = K^p L^q \)</p>
                                             <span class="shrink-0 text-[11px] font-semibold bg-slate-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2024 T1</span>
                                         </div>
-                                        <ul class="text-sm space-y-1">
-                                            <li class="px-3 py-1 rounded text-slate-600">Shows only constant returns to scale</li>
-                                            <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ Shows Increasing, decreasing or constant returns to scale based on the value of p+q</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">Has constant marginal product of labour</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">Has constant marginal product of capital</li>
-                                        </ul>
+                                        <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-7">
+<li class="px-3 py-1 rounded pyq-opt">Shows only constant returns to scale</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">Shows Increasing, decreasing or constant returns to scale based on the value of p+q</li>
+<li class="px-3 py-1 rounded pyq-opt">Has constant marginal product of labour</li>
+<li class="px-3 py-1 rounded pyq-opt">Has constant marginal product of capital</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-7" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                     </div>
                                     <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mt-2">
                                         <div class="flex items-start justify-between gap-3 mb-2">
                                             <p class="font-medium text-slate-800">The Cobb-Douglas production function \( F(K, L) = K^p L^q \)</p>
                                             <span class="shrink-0 text-[11px] font-semibold bg-slate-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2025 T1</span>
                                         </div>
-                                        <ul class="text-sm space-y-1">
-                                            <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ May exhibit constant returns to scale</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">Shows Increasing returns to scale if p + q = 1</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">Has constant marginal product of labour</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">Has constant marginal product of capital</li>
-                                        </ul>
+                                        <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-8">
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">May exhibit constant returns to scale</li>
+<li class="px-3 py-1 rounded pyq-opt">Shows Increasing returns to scale if p + q = 1</li>
+<li class="px-3 py-1 rounded pyq-opt">Has constant marginal product of labour</li>
+<li class="px-3 py-1 rounded pyq-opt">Has constant marginal product of capital</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-8" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                     </div>
                                 </div>
 
@@ -299,24 +399,26 @@
                                             <p class="font-medium text-slate-800">For the production function \( q = 4L^{1/2} + 4K \)</p>
                                             <span class="shrink-0 text-[11px] font-semibold bg-slate-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2024 T2</span>
                                         </div>
-                                        <ul class="text-sm space-y-1">
-                                            <li class="px-3 py-1 rounded text-slate-600">Both MPL and MPK are constant</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">MPL is increasing but MPK is constant</li>
-                                            <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ MPL is decreasing and MPK is constant</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">Both MPL and MPK are decreasing</li>
-                                        </ul>
+                                        <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-9">
+<li class="px-3 py-1 rounded pyq-opt">Both MPL and MPK are constant</li>
+<li class="px-3 py-1 rounded pyq-opt">MPL is increasing but MPK is constant</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">MPL is decreasing and MPK is constant</li>
+<li class="px-3 py-1 rounded pyq-opt">Both MPL and MPK are decreasing</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-9" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                     </div>
                                     <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mt-2">
                                         <div class="flex items-start justify-between gap-3 mb-2">
                                             <p class="font-medium text-slate-800">For the production function \( q = 4K^{1/2} + 4L \)</p>
                                             <span class="shrink-0 text-[11px] font-semibold bg-slate-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2026 T1</span>
                                         </div>
-                                        <ul class="text-sm space-y-1">
-                                            <li class="px-3 py-1 rounded text-slate-600">Both MPL and MPK are constant</li>
-                                            <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ MPK is decreasing but MPL is constant</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">MPL is decreasing and MPK is constant</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">Both MPL and MPK are decreasing</li>
-                                        </ul>
+                                        <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-10">
+<li class="px-3 py-1 rounded pyq-opt">Both MPL and MPK are constant</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">MPK is decreasing but MPL is constant</li>
+<li class="px-3 py-1 rounded pyq-opt">MPL is decreasing and MPK is constant</li>
+<li class="px-3 py-1 rounded pyq-opt">Both MPL and MPK are decreasing</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-10" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                     </div>
                                 </div>
 
@@ -325,15 +427,15 @@
                                     <div class="space-y-2">
                                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 flex items-center justify-between gap-3">
                                             <p class="text-slate-800 text-sm">When average product is decreasing in labor, marginal product is greater than average product.</p>
-                                            <span class="shrink-0 font-mono font-bold text-rose-700 bg-rose-50 border border-rose-300 rounded px-3 py-1 text-sm">False</span>
+                                            <button type="button" class="reveal-chip" id="pyq-val-1-btn" onclick="pyqRevealChip('pyq-val-1')">Reveal</button><span class="shrink-0 font-mono font-bold text-rose-700 bg-rose-50 border border-rose-300 rounded px-3 py-1 text-sm hidden pyq-val" id="pyq-val-1" onclick="pyqHideChip('pyq-val-1')">False</span>
                                         </div>
                                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 flex items-center justify-between gap-3">
                                             <p class="text-slate-800 text-sm">When average product is increasing in labor, marginal product is less than average product.</p>
-                                            <span class="shrink-0 font-mono font-bold text-rose-700 bg-rose-50 border border-rose-300 rounded px-3 py-1 text-sm">False</span>
+                                            <button type="button" class="reveal-chip" id="pyq-val-2-btn" onclick="pyqRevealChip('pyq-val-2')">Reveal</button><span class="shrink-0 font-mono font-bold text-rose-700 bg-rose-50 border border-rose-300 rounded px-3 py-1 text-sm hidden pyq-val" id="pyq-val-2" onclick="pyqHideChip('pyq-val-2')">False</span>
                                         </div>
                                         <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 flex items-center justify-between gap-3">
                                             <p class="text-slate-800 text-sm">When average product \( AP_L \) is at a maximum, then marginal product is equal to average product.</p>
-                                            <span class="shrink-0 font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 rounded px-3 py-1 text-sm">True</span>
+                                            <button type="button" class="reveal-chip" id="pyq-val-3-btn" onclick="pyqRevealChip('pyq-val-3')">Reveal</button><span class="shrink-0 font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 rounded px-3 py-1 text-sm hidden pyq-val" id="pyq-val-3" onclick="pyqHideChip('pyq-val-3')">True</span>
                                         </div>
                                     </div>
                                 </div>
@@ -409,8 +511,8 @@
                                     </span>
                                 </div>
                                 <div class="grid sm:grid-cols-2 gap-2 text-sm">
-                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">What is the company's fixed cost?</span><span class="font-mono font-bold text-emerald-700">200</span></div>
-                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AVC if 100 units produced?</span><span class="font-mono font-bold text-emerald-700">55</span></div>
+                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">What is the company's fixed cost?</span><button type="button" class="reveal-chip" id="pyq-val-4-btn" onclick="pyqRevealChip('pyq-val-4')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-4" onclick="pyqHideChip('pyq-val-4')">200</span></div>
+                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AVC if 100 units produced?</span><button type="button" class="reveal-chip" id="pyq-val-5-btn" onclick="pyqRevealChip('pyq-val-5')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-5" onclick="pyqHideChip('pyq-val-5')">55</span></div>
                                 </div>
                             </div>
 
@@ -420,9 +522,9 @@
                                     <span class="shrink-0 text-[11px] font-semibold bg-teal-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2024 T1</span>
                                 </div>
                                 <div class="grid sm:grid-cols-3 gap-2 text-sm">
-                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AFC at q=100?</span><span class="font-mono font-bold text-emerald-700">1</span></div>
-                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">MC at q=25?</span><span class="font-mono font-bold text-emerald-700">75</span></div>
-                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AVC at q=25?</span><span class="font-mono font-bold text-emerald-700">50</span></div>
+                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AFC at q=100?</span><button type="button" class="reveal-chip" id="pyq-val-6-btn" onclick="pyqRevealChip('pyq-val-6')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-6" onclick="pyqHideChip('pyq-val-6')">1</span></div>
+                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">MC at q=25?</span><button type="button" class="reveal-chip" id="pyq-val-7-btn" onclick="pyqRevealChip('pyq-val-7')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-7" onclick="pyqHideChip('pyq-val-7')">75</span></div>
+                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AVC at q=25?</span><button type="button" class="reveal-chip" id="pyq-val-8-btn" onclick="pyqRevealChip('pyq-val-8')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-8" onclick="pyqHideChip('pyq-val-8')">50</span></div>
                                 </div>
                             </div>
 
@@ -432,9 +534,9 @@
                                     <span class="shrink-0 text-[11px] font-semibold bg-teal-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2025 T1</span>
                                 </div>
                                 <div class="grid sm:grid-cols-3 gap-2 text-sm">
-                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AFC at q=100?</span><span class="font-mono font-bold text-emerald-700">2</span></div>
-                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">MC at q=25?</span><span class="font-mono font-bold text-emerald-700">100</span></div>
-                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AVC at q=25?</span><span class="font-mono font-bold text-emerald-700">75</span></div>
+                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AFC at q=100?</span><button type="button" class="reveal-chip" id="pyq-val-9-btn" onclick="pyqRevealChip('pyq-val-9')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-9" onclick="pyqHideChip('pyq-val-9')">2</span></div>
+                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">MC at q=25?</span><button type="button" class="reveal-chip" id="pyq-val-10-btn" onclick="pyqRevealChip('pyq-val-10')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-10" onclick="pyqHideChip('pyq-val-10')">100</span></div>
+                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AVC at q=25?</span><button type="button" class="reveal-chip" id="pyq-val-11-btn" onclick="pyqRevealChip('pyq-val-11')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-11" onclick="pyqHideChip('pyq-val-11')">75</span></div>
                                 </div>
                             </div>
 
@@ -444,9 +546,9 @@
                                     <span class="shrink-0 text-[11px] font-semibold bg-teal-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2025 T2</span>
                                 </div>
                                 <div class="grid sm:grid-cols-3 gap-2 text-sm">
-                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AFC at q=50?</span><span class="font-mono font-bold text-emerald-700">6</span></div>
-                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">MC at q=50?</span><span class="font-mono font-bold text-emerald-700">150</span></div>
-                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AVC at q=50?</span><span class="font-mono font-bold text-emerald-700">100</span></div>
+                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AFC at q=50?</span><button type="button" class="reveal-chip" id="pyq-val-12-btn" onclick="pyqRevealChip('pyq-val-12')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-12" onclick="pyqHideChip('pyq-val-12')">6</span></div>
+                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">MC at q=50?</span><button type="button" class="reveal-chip" id="pyq-val-13-btn" onclick="pyqRevealChip('pyq-val-13')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-13" onclick="pyqHideChip('pyq-val-13')">150</span></div>
+                                    <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">AVC at q=50?</span><button type="button" class="reveal-chip" id="pyq-val-14-btn" onclick="pyqRevealChip('pyq-val-14')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-14" onclick="pyqHideChip('pyq-val-14')">100</span></div>
                                 </div>
                             </div>
 
@@ -461,12 +563,13 @@
                                     </span>
                                 </div>
                                 <p class="text-xs text-slate-500 mb-2">Appeared in all four papers checked — this is a near-certain repeat.</p>
-                                <ul class="text-sm space-y-1">
-                                    <li class="px-3 py-1 rounded text-slate-600">average total costs are falling</li>
-                                    <li class="px-3 py-1 rounded text-slate-600">average total costs are maximized</li>
-                                    <li class="px-3 py-1 rounded text-slate-600">average total costs are rising</li>
-                                    <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ average total costs are minimized</li>
-                                </ul>
+                                <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-11">
+<li class="px-3 py-1 rounded pyq-opt">average total costs are falling</li>
+<li class="px-3 py-1 rounded pyq-opt">average total costs are maximized</li>
+<li class="px-3 py-1 rounded pyq-opt">average total costs are rising</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">average total costs are minimized</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-11" onclick="pyqRevealMcq(this)">Reveal answer</button>
                             </div>
 
                         </div>
@@ -534,9 +637,9 @@
                                         </span>
                                     </div>
                                     <div class="grid sm:grid-cols-3 gap-2 text-sm">
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Using 3 hrs labour : 1 hr machine — minimizing costs?</span><span class="font-mono font-bold text-rose-700">No</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Optimal L*</span><span class="font-mono font-bold text-emerald-700">0</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Optimal K*</span><span class="font-mono font-bold text-emerald-700">4</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Using 3 hrs labour : 1 hr machine — minimizing costs?</span><button type="button" class="reveal-chip" id="pyq-val-15-btn" onclick="pyqRevealChip('pyq-val-15')">Reveal</button><span class="font-mono font-bold text-rose-700 hidden pyq-val" id="pyq-val-15" onclick="pyqHideChip('pyq-val-15')">No</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Optimal L*</span><button type="button" class="reveal-chip" id="pyq-val-16-btn" onclick="pyqRevealChip('pyq-val-16')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-16" onclick="pyqHideChip('pyq-val-16')">0</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Optimal K*</span><button type="button" class="reveal-chip" id="pyq-val-17-btn" onclick="pyqRevealChip('pyq-val-17')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-17" onclick="pyqHideChip('pyq-val-17')">4</span></div>
                                     </div>
                                     <p class="text-xs text-slate-500 mt-2">Machinery is cheaper per hour ($15 &lt; $30), so the firm uses machinery only.</p>
                                 </div>
@@ -546,9 +649,9 @@
                                         <span class="shrink-0 text-[11px] font-semibold bg-rose-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2026 T1</span>
                                     </div>
                                     <div class="grid sm:grid-cols-3 gap-2 text-sm">
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Using 3 hrs machine : 1 hr labour — minimizing costs?</span><span class="font-mono font-bold text-rose-700">No</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Optimal L*</span><span class="font-mono font-bold text-emerald-700">4</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Optimal K*</span><span class="font-mono font-bold text-emerald-700">0</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Using 3 hrs machine : 1 hr labour — minimizing costs?</span><button type="button" class="reveal-chip" id="pyq-val-18-btn" onclick="pyqRevealChip('pyq-val-18')">Reveal</button><span class="font-mono font-bold text-rose-700 hidden pyq-val" id="pyq-val-18" onclick="pyqHideChip('pyq-val-18')">No</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Optimal L*</span><button type="button" class="reveal-chip" id="pyq-val-19-btn" onclick="pyqRevealChip('pyq-val-19')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-19" onclick="pyqHideChip('pyq-val-19')">4</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Optimal K*</span><button type="button" class="reveal-chip" id="pyq-val-20-btn" onclick="pyqRevealChip('pyq-val-20')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-20" onclick="pyqHideChip('pyq-val-20')">0</span></div>
                                     </div>
                                     <p class="text-xs text-slate-500 mt-2">Wages/rental are swapped here — labour is now the cheaper input, so L*=4, K*=0. Read the numbers carefully!</p>
                                 </div>
@@ -564,12 +667,13 @@
                                             <span class="text-[11px] font-semibold bg-rose-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2026 T1</span>
                                         </span>
                                     </div>
-                                    <ul class="text-sm space-y-1">
-                                        <li class="px-3 py-1 rounded text-slate-600">5, 20</li>
-                                        <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ 20, 5</li>
-                                        <li class="px-3 py-1 rounded text-slate-600">20, 10</li>
-                                        <li class="px-3 py-1 rounded text-slate-600">10, 20</li>
-                                    </ul>
+                                    <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-12">
+<li class="px-3 py-1 rounded pyq-opt">5, 20</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">20, 5</li>
+<li class="px-3 py-1 rounded pyq-opt">20, 10</li>
+<li class="px-3 py-1 rounded pyq-opt">10, 20</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-12" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                 </div>
                             </div>
 
@@ -582,9 +686,9 @@
                                             <span class="shrink-0 text-[11px] font-semibold bg-rose-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2025 T1</span>
                                         </div>
                                         <div class="space-y-1.5 text-sm">
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">Ratio K/L</span><span class="font-mono font-bold text-emerald-700">1/4</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">L*</span><span class="font-mono font-bold text-emerald-700">40</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">K*</span><span class="font-mono font-bold text-emerald-700">10</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">Ratio K/L</span><button type="button" class="reveal-chip" id="pyq-val-21-btn" onclick="pyqRevealChip('pyq-val-21')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-21" onclick="pyqHideChip('pyq-val-21')">1/4</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">L*</span><button type="button" class="reveal-chip" id="pyq-val-22-btn" onclick="pyqRevealChip('pyq-val-22')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-22" onclick="pyqHideChip('pyq-val-22')">40</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">K*</span><button type="button" class="reveal-chip" id="pyq-val-23-btn" onclick="pyqRevealChip('pyq-val-23')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-23" onclick="pyqHideChip('pyq-val-23')">10</span></div>
                                         </div>
                                     </div>
                                     <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
@@ -593,9 +697,9 @@
                                             <span class="shrink-0 text-[11px] font-semibold bg-rose-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2025 T2</span>
                                         </div>
                                         <div class="space-y-1.5 text-sm">
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">Ratio K/L</span><span class="font-mono font-bold text-emerald-700">4</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">L*</span><span class="font-mono font-bold text-emerald-700">10</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">K*</span><span class="font-mono font-bold text-emerald-700">40</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">Ratio K/L</span><button type="button" class="reveal-chip" id="pyq-val-24-btn" onclick="pyqRevealChip('pyq-val-24')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-24" onclick="pyqHideChip('pyq-val-24')">4</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">L*</span><button type="button" class="reveal-chip" id="pyq-val-25-btn" onclick="pyqRevealChip('pyq-val-25')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-25" onclick="pyqHideChip('pyq-val-25')">10</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">K*</span><button type="button" class="reveal-chip" id="pyq-val-26-btn" onclick="pyqRevealChip('pyq-val-26')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-26" onclick="pyqHideChip('pyq-val-26')">40</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -611,11 +715,11 @@
                                             <span class="shrink-0 text-[11px] font-semibold bg-rose-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2025 T1</span>
                                         </div>
                                         <div class="space-y-1.5 text-sm">
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">\(MP_L\)</span><span class="font-mono font-bold text-emerald-700">10</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">\(MP_K\)</span><span class="font-mono font-bold text-emerald-700">2</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">L*</span><span class="font-mono font-bold text-emerald-700">20</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">K*</span><span class="font-mono font-bold text-emerald-700">0</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">Total cost ($)</span><span class="font-mono font-bold text-emerald-700">100</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">\(MP_L\)</span><button type="button" class="reveal-chip" id="pyq-val-27-btn" onclick="pyqRevealChip('pyq-val-27')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-27" onclick="pyqHideChip('pyq-val-27')">10</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">\(MP_K\)</span><button type="button" class="reveal-chip" id="pyq-val-28-btn" onclick="pyqRevealChip('pyq-val-28')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-28" onclick="pyqHideChip('pyq-val-28')">2</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">L*</span><button type="button" class="reveal-chip" id="pyq-val-29-btn" onclick="pyqRevealChip('pyq-val-29')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-29" onclick="pyqHideChip('pyq-val-29')">20</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">K*</span><button type="button" class="reveal-chip" id="pyq-val-30-btn" onclick="pyqRevealChip('pyq-val-30')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-30" onclick="pyqHideChip('pyq-val-30')">0</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">Total cost ($)</span><button type="button" class="reveal-chip" id="pyq-val-31-btn" onclick="pyqRevealChip('pyq-val-31')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-31" onclick="pyqHideChip('pyq-val-31')">100</span></div>
                                         </div>
                                     </div>
                                     <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
@@ -624,11 +728,11 @@
                                             <span class="shrink-0 text-[11px] font-semibold bg-rose-700 text-white px-2 py-0.5 rounded whitespace-nowrap">2025 T2</span>
                                         </div>
                                         <div class="space-y-1.5 text-sm">
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">\(MP_L\)</span><span class="font-mono font-bold text-emerald-700">5</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">\(MP_K\)</span><span class="font-mono font-bold text-emerald-700">2</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">L*</span><span class="font-mono font-bold text-emerald-700">0</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">K*</span><span class="font-mono font-bold text-emerald-700">100</span></div>
-                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">Total cost ($)</span><span class="font-mono font-bold text-emerald-700">200</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">\(MP_L\)</span><button type="button" class="reveal-chip" id="pyq-val-32-btn" onclick="pyqRevealChip('pyq-val-32')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-32" onclick="pyqHideChip('pyq-val-32')">5</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">\(MP_K\)</span><button type="button" class="reveal-chip" id="pyq-val-33-btn" onclick="pyqRevealChip('pyq-val-33')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-33" onclick="pyqHideChip('pyq-val-33')">2</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">L*</span><button type="button" class="reveal-chip" id="pyq-val-34-btn" onclick="pyqRevealChip('pyq-val-34')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-34" onclick="pyqHideChip('pyq-val-34')">0</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">K*</span><button type="button" class="reveal-chip" id="pyq-val-35-btn" onclick="pyqRevealChip('pyq-val-35')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-35" onclick="pyqHideChip('pyq-val-35')">100</span></div>
+                                            <div class="bg-white border rounded px-3 py-1.5 flex justify-between items-center"><span class="text-slate-700">Total cost ($)</span><button type="button" class="reveal-chip" id="pyq-val-36-btn" onclick="pyqRevealChip('pyq-val-36')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-36" onclick="pyqHideChip('pyq-val-36')">200</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -639,10 +743,10 @@
                                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
                                     <p class="font-medium text-slate-800 mb-3">The production function for a product is given by q = 100KL. If the price of capital is INR 1200 per day and the price of labour INR 300 per day.</p>
                                     <div class="grid sm:grid-cols-2 gap-2 text-sm">
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Optimal capital-labour ratio (K/L)</span><span class="font-mono font-bold text-emerald-700">0.25</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">L* for 10,000 units</span><span class="font-mono font-bold text-emerald-700">20</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">K* for 10,000 units</span><span class="font-mono font-bold text-emerald-700">5</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Minimized cost (₹) for 10,000 units</span><span class="font-mono font-bold text-emerald-700">12000</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Optimal capital-labour ratio (K/L)</span><button type="button" class="reveal-chip" id="pyq-val-37-btn" onclick="pyqRevealChip('pyq-val-37')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-37" onclick="pyqHideChip('pyq-val-37')">0.25</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">L* for 10,000 units</span><button type="button" class="reveal-chip" id="pyq-val-38-btn" onclick="pyqRevealChip('pyq-val-38')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-38" onclick="pyqHideChip('pyq-val-38')">20</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">K* for 10,000 units</span><button type="button" class="reveal-chip" id="pyq-val-39-btn" onclick="pyqRevealChip('pyq-val-39')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-39" onclick="pyqHideChip('pyq-val-39')">5</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Minimized cost (₹) for 10,000 units</span><button type="button" class="reveal-chip" id="pyq-val-40-btn" onclick="pyqRevealChip('pyq-val-40')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-40" onclick="pyqHideChip('pyq-val-40')">12000</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -651,7 +755,7 @@
                                 <p class="text-sm font-semibold text-rose-700 mb-2">MRTS given directly <span class="font-normal text-slate-500">— 2026 T1</span></p>
                                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 flex items-center justify-between gap-4">
                                     <p class="font-medium text-slate-800">The marginal product of labour in the production of chips is 50 kg chips per hour. The marginal rate of technical substitution of hours of labour for hours of machine capital is 1/4. What is the marginal product of capital in kg per hour?</p>
-                                    <span class="shrink-0 font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 rounded px-3 py-1">200</span>
+                                    <button type="button" class="reveal-chip" id="pyq-val-41-btn" onclick="pyqRevealChip('pyq-val-41')">Reveal</button><span class="shrink-0 font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-300 rounded px-3 py-1 hidden pyq-val" id="pyq-val-41" onclick="pyqHideChip('pyq-val-41')">200</span>
                                 </div>
                                 <p class="text-xs text-slate-500 mt-1">\( MRTS = MP_L / MP_K \; \Rightarrow \; MP_K = MP_L / MRTS = 50 / (1/4) = 200 \)</p>
                             </div>
@@ -748,21 +852,23 @@
                                 <div class="grid md:grid-cols-2 gap-2">
                                     <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
                                         <p class="font-medium text-slate-800 mb-2">When one is not able to compare two goods and is confused about which one to choose, his preference violates</p>
-                                        <ul class="text-sm space-y-1">
-                                            <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ Completeness</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">Reflexivity</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">Transitivity</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">All of these</li>
-                                        </ul>
+                                        <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-13">
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">Completeness</li>
+<li class="px-3 py-1 rounded pyq-opt">Reflexivity</li>
+<li class="px-3 py-1 rounded pyq-opt">Transitivity</li>
+<li class="px-3 py-1 rounded pyq-opt">All of these</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-13" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                     </div>
                                     <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
                                         <p class="font-medium text-slate-800 mb-2">When a person prefers Mango to Apple, Apple to Guava and Guava to Mango, his preference violates</p>
-                                        <ul class="text-sm space-y-1">
-                                            <li class="px-3 py-1 rounded text-slate-600">Completeness</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">Reflexivity</li>
-                                            <li class="px-3 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ Transitivity</li>
-                                            <li class="px-3 py-1 rounded text-slate-600">Convexity</li>
-                                        </ul>
+                                        <ul class="text-sm space-y-1 pyq-mcq" id="pyq-mcq-14">
+<li class="px-3 py-1 rounded pyq-opt">Completeness</li>
+<li class="px-3 py-1 rounded pyq-opt">Reflexivity</li>
+<li class="px-3 py-1 rounded pyq-opt" data-correct="true">Transitivity</li>
+<li class="px-3 py-1 rounded pyq-opt">Convexity</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-14" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                     </div>
                                 </div>
                             </div>
@@ -778,8 +884,8 @@
                                         </span>
                                     </div>
                                     <div class="space-y-2 text-sm">
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">If Elmo has 2 quarters and a dime in his pockets, he can buy 1 soft drink. How many soft drinks can he buy if he has 4 quarters and 2 dimes?</span><span class="font-mono font-bold text-emerald-700 shrink-0 ml-2">2</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Does Elmo have convex preferences between dimes and quarters?</span><span class="font-mono font-bold text-rose-700 shrink-0 ml-2">No</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">If Elmo has 2 quarters and a dime in his pockets, he can buy 1 soft drink. How many soft drinks can he buy if he has 4 quarters and 2 dimes?</span><button type="button" class="reveal-chip" id="pyq-val-42-btn" onclick="pyqRevealChip('pyq-val-42')">Reveal</button><span class="font-mono font-bold text-emerald-700 shrink-0 ml-2 hidden pyq-val" id="pyq-val-42" onclick="pyqHideChip('pyq-val-42')">2</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Does Elmo have convex preferences between dimes and quarters?</span><button type="button" class="reveal-chip" id="pyq-val-43-btn" onclick="pyqRevealChip('pyq-val-43')">Reveal</button><span class="font-mono font-bold text-rose-700 shrink-0 ml-2 hidden pyq-val" id="pyq-val-43" onclick="pyqHideChip('pyq-val-43')">No</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -789,11 +895,11 @@
                                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
                                     <p class="text-slate-800 mb-3">Consider two goods, coconut and fish with prices \(P_c = 20\) and \(P_f = 10\). Robin has an income \(I = 1000\) and he consumes only these two goods. With the help of the plot of his budget line taking fish on the Y-axis, answer the given subquestions.</p>
                                     <div class="grid sm:grid-cols-2 gap-2 text-sm">
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Slope of the budget line</span><span class="font-mono font-bold text-emerald-700">-2</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Intercepts on the axes</span><span class="font-mono font-bold text-emerald-700 text-right">50 (X) / 100 (Y)</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Price of coconut halved → new slope</span><span class="font-mono font-bold text-emerald-700">-1</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">→ new intercepts</span><span class="font-mono font-bold text-emerald-700 text-right">100 (X) / 100 (Y)</span></div>
-                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center sm:col-span-2"><span class="text-slate-700">If income is halved, prices unchanged</span><span class="font-mono font-bold text-emerald-700 text-right">Slope same, intercepts halved</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Slope of the budget line</span><button type="button" class="reveal-chip" id="pyq-val-44-btn" onclick="pyqRevealChip('pyq-val-44')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-44" onclick="pyqHideChip('pyq-val-44')">-2</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Intercepts on the axes</span><button type="button" class="reveal-chip" id="pyq-val-45-btn" onclick="pyqRevealChip('pyq-val-45')">Reveal</button><span class="font-mono font-bold text-emerald-700 text-right hidden pyq-val" id="pyq-val-45" onclick="pyqHideChip('pyq-val-45')">50 (X) / 100 (Y)</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Price of coconut halved → new slope</span><button type="button" class="reveal-chip" id="pyq-val-46-btn" onclick="pyqRevealChip('pyq-val-46')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-46" onclick="pyqHideChip('pyq-val-46')">-1</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">→ new intercepts</span><button type="button" class="reveal-chip" id="pyq-val-47-btn" onclick="pyqRevealChip('pyq-val-47')">Reveal</button><span class="font-mono font-bold text-emerald-700 text-right hidden pyq-val" id="pyq-val-47" onclick="pyqHideChip('pyq-val-47')">100 (X) / 100 (Y)</span></div>
+                                        <div class="bg-white border rounded px-3 py-2 flex justify-between items-center sm:col-span-2"><span class="text-slate-700">If income is halved, prices unchanged</span><button type="button" class="reveal-chip" id="pyq-val-48-btn" onclick="pyqRevealChip('pyq-val-48')">Reveal</button><span class="font-mono font-bold text-emerald-700 text-right hidden pyq-val" id="pyq-val-48" onclick="pyqHideChip('pyq-val-48')">Slope same, intercepts halved</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -805,21 +911,23 @@
                                     <div class="grid sm:grid-cols-2 gap-3">
                                         <div class="bg-white border rounded-lg p-3">
                                             <p class="font-medium text-slate-800 text-sm mb-2">Choose the correct alternative.</p>
-                                            <ul class="text-xs space-y-1">
-                                                <li class="px-2 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ This consumer believes that more is better for each good, x and y</li>
-                                                <li class="px-2 py-1 rounded text-slate-600">Marginal utility of the good x is independent of x and marginal utility of the good y is independent of y</li>
-                                                <li class="px-2 py-1 rounded text-slate-600">Both of the above</li>
-                                                <li class="px-2 py-1 rounded text-slate-600">None</li>
-                                            </ul>
+                                            <ul class="text-xs space-y-1 pyq-mcq" id="pyq-mcq-15">
+<li class="px-2 py-1 rounded pyq-opt" data-correct="true">This consumer believes that more is better for each good, x and y</li>
+<li class="px-2 py-1 rounded pyq-opt">Marginal utility of the good x is independent of x and marginal utility of the good y is independent of y</li>
+<li class="px-2 py-1 rounded pyq-opt">Both of the above</li>
+<li class="px-2 py-1 rounded pyq-opt">None</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-15" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                         </div>
                                         <div class="bg-white border rounded-lg p-3">
                                             <p class="font-medium text-slate-800 text-sm mb-2">Choose the incorrect alternative.</p>
-                                            <ul class="text-xs space-y-1">
-                                                <li class="px-2 py-1 rounded text-slate-600">This consumer's preferences exhibit a diminishing marginal utility of x</li>
-                                                <li class="px-2 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ This consumer's preferences exhibit a diminishing marginal utility of y</li>
-                                                <li class="px-2 py-1 rounded text-slate-600">Both of the above</li>
-                                                <li class="px-2 py-1 rounded text-slate-600">None</li>
-                                            </ul>
+                                            <ul class="text-xs space-y-1 pyq-mcq" id="pyq-mcq-16">
+<li class="px-2 py-1 rounded pyq-opt">This consumer's preferences exhibit a diminishing marginal utility of x</li>
+<li class="px-2 py-1 rounded pyq-opt" data-correct="true">This consumer's preferences exhibit a diminishing marginal utility of y</li>
+<li class="px-2 py-1 rounded pyq-opt">Both of the above</li>
+<li class="px-2 py-1 rounded pyq-opt">None</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-16" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                         </div>
                                     </div>
                                     <p class="text-xs text-slate-500 mt-2">\( MU_x = \frac{y}{2\sqrt{x}} \) falls as x rises (diminishing), but \( MU_y = \sqrt{x} \) doesn't depend on y at all — so "diminishing MU of y" is the false statement.</p>
@@ -888,21 +996,23 @@
                                     <div class="grid sm:grid-cols-2 gap-2">
                                         <div class="bg-white border rounded-lg p-3">
                                             <p class="font-medium text-slate-800 text-sm mb-2">Your explicit costs include</p>
-                                            <ul class="text-xs space-y-1">
-                                                <li class="px-2 py-1 rounded text-slate-600">Leasing computer time</li>
-                                                <li class="px-2 py-1 rounded text-slate-600">Gasoline</li>
-                                                <li class="px-2 py-1 rounded text-slate-600">Money you pay grocers</li>
-                                                <li class="px-2 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ All of these</li>
-                                            </ul>
+                                            <ul class="text-xs space-y-1 pyq-mcq" id="pyq-mcq-17">
+<li class="px-2 py-1 rounded pyq-opt">Leasing computer time</li>
+<li class="px-2 py-1 rounded pyq-opt">Gasoline</li>
+<li class="px-2 py-1 rounded pyq-opt">Money you pay grocers</li>
+<li class="px-2 py-1 rounded pyq-opt" data-correct="true">All of these</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-17" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                         </div>
                                         <div class="bg-white border rounded-lg p-3">
                                             <p class="font-medium text-slate-800 text-sm mb-2">Your implicit cost will be</p>
-                                            <ul class="text-xs space-y-1">
-                                                <li class="px-2 py-1 rounded text-slate-600">$300 car payment</li>
-                                                <li class="px-2 py-1 rounded text-slate-600">$100 a month insurance cost</li>
-                                                <li class="px-2 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800">✓ Your wage at campus dining hall $6 an hour</li>
-                                                <li class="px-2 py-1 rounded text-slate-600">All of these</li>
-                                            </ul>
+                                            <ul class="text-xs space-y-1 pyq-mcq" id="pyq-mcq-18">
+<li class="px-2 py-1 rounded pyq-opt">$300 car payment</li>
+<li class="px-2 py-1 rounded pyq-opt">$100 a month insurance cost</li>
+<li class="px-2 py-1 rounded pyq-opt" data-correct="true">Your wage at campus dining hall $6 an hour</li>
+<li class="px-2 py-1 rounded pyq-opt">All of these</li>
+</ul>
+<button type="button" class="reveal-btn mt-2" data-target="pyq-mcq-18" onclick="pyqRevealMcq(this)">Reveal answer</button>
                                         </div>
                                     </div>
                                 </div>
@@ -921,9 +1031,9 @@
                                             </span>
                                         </div>
                                         <div class="grid sm:grid-cols-3 gap-2 text-sm">
-                                            <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Opportunity cost of filling this order</span><span class="font-mono font-bold text-emerald-700">$25</span></div>
-                                            <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Should you sell to the fraternity?</span><span class="font-mono font-bold text-emerald-700">Yes</span></div>
-                                            <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Sunk cost <span class="text-slate-400">(2025 T1 only)</span></span><span class="font-mono font-bold text-emerald-700">$75</span></div>
+                                            <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Opportunity cost of filling this order</span><button type="button" class="reveal-chip" id="pyq-val-49-btn" onclick="pyqRevealChip('pyq-val-49')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-49" onclick="pyqHideChip('pyq-val-49')">$25</span></div>
+                                            <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Should you sell to the fraternity?</span><button type="button" class="reveal-chip" id="pyq-val-50-btn" onclick="pyqRevealChip('pyq-val-50')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-50" onclick="pyqHideChip('pyq-val-50')">Yes</span></div>
+                                            <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Sunk cost <span class="text-slate-400">(2025 T1 only)</span></span><button type="button" class="reveal-chip" id="pyq-val-51-btn" onclick="pyqRevealChip('pyq-val-51')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-51" onclick="pyqHideChip('pyq-val-51')">$75</span></div>
                                         </div>
                                     </div>
                                     <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
@@ -935,8 +1045,8 @@
                                             </span>
                                         </div>
                                         <div class="grid sm:grid-cols-2 gap-2 text-sm">
-                                            <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Opportunity cost of filling this order</span><span class="font-mono font-bold text-emerald-700">$100</span></div>
-                                            <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Should you sell to the fraternity?</span><span class="font-mono font-bold text-emerald-700">Yes</span></div>
+                                            <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Opportunity cost of filling this order</span><button type="button" class="reveal-chip" id="pyq-val-52-btn" onclick="pyqRevealChip('pyq-val-52')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-52" onclick="pyqHideChip('pyq-val-52')">$100</span></div>
+                                            <div class="bg-white border rounded px-3 py-2 flex justify-between items-center"><span class="text-slate-700">Should you sell to the fraternity?</span><button type="button" class="reveal-chip" id="pyq-val-53-btn" onclick="pyqRevealChip('pyq-val-53')">Reveal</button><span class="font-mono font-bold text-emerald-700 hidden pyq-val" id="pyq-val-53" onclick="pyqHideChip('pyq-val-53')">Yes</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -961,17 +1071,17 @@
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left border-collapse">
                                     <tbody class="divide-y divide-slate-100">
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Trade 3L for 1K, output constant → function type</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5 font-semibold text-emerald-700">Linear</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">2 workers per machine → function type</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5 font-semibold text-emerald-700">Leontief</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">MPL definition</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1/T2, 2025T1</td><td class="py-1.5 font-semibold text-emerald-700">Extra output, 1 more unit labour, other inputs held constant</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">MPK definition</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5 font-semibold text-emerald-700">Extra output, 1 more unit capital, other input held constant</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Cobb-Douglas \(K^pL^q\) — returns to scale</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1</td><td class="py-1.5 font-semibold text-emerald-700">Depends on p+q (inc./dec./const.)</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Cobb-Douglas \(K^pL^q\) — returns to scale (v2)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1</td><td class="py-1.5 font-semibold text-emerald-700">May exhibit constant returns to scale</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(q=4L^{1/2}+4K\) — MP behaviour</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2</td><td class="py-1.5 font-semibold text-emerald-700">MPL decreasing, MPK constant</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(q=4K^{1/2}+4L\) — MP behaviour</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5 font-semibold text-emerald-700">MPK decreasing, MPL constant</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">AP decreasing ⇒ MP &gt; AP?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5 font-semibold text-rose-700">False</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">AP increasing ⇒ MP &lt; AP?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5 font-semibold text-rose-700">False</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">AP at max ⇒ MP = AP?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5 font-semibold text-emerald-700">True</td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Trade 3L for 1K, output constant → function type</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1001-btn" onclick="pyqRevealChip('pyq-val-1001')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1001" onclick="pyqHideChip('pyq-val-1001')">Linear</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">2 workers per machine → function type</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1002-btn" onclick="pyqRevealChip('pyq-val-1002')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1002" onclick="pyqHideChip('pyq-val-1002')">Leontief</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">MPL definition</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1/T2, 2025T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1003-btn" onclick="pyqRevealChip('pyq-val-1003')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1003" onclick="pyqHideChip('pyq-val-1003')">Extra output, 1 more unit labour, other inputs held constant</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">MPK definition</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1004-btn" onclick="pyqRevealChip('pyq-val-1004')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1004" onclick="pyqHideChip('pyq-val-1004')">Extra output, 1 more unit capital, other input held constant</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Cobb-Douglas \(K^pL^q\) — returns to scale</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1005-btn" onclick="pyqRevealChip('pyq-val-1005')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1005" onclick="pyqHideChip('pyq-val-1005')">Depends on p+q (inc./dec./const.)</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Cobb-Douglas \(K^pL^q\) — returns to scale (v2)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1006-btn" onclick="pyqRevealChip('pyq-val-1006')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1006" onclick="pyqHideChip('pyq-val-1006')">May exhibit constant returns to scale</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(q=4L^{1/2}+4K\) — MP behaviour</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1007-btn" onclick="pyqRevealChip('pyq-val-1007')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1007" onclick="pyqHideChip('pyq-val-1007')">MPL decreasing, MPK constant</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(q=4K^{1/2}+4L\) — MP behaviour</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1008-btn" onclick="pyqRevealChip('pyq-val-1008')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1008" onclick="pyqHideChip('pyq-val-1008')">MPK decreasing, MPL constant</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">AP decreasing ⇒ MP &gt; AP?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1009-btn" onclick="pyqRevealChip('pyq-val-1009')">Reveal</button><span class="font-semibold text-rose-700 hidden pyq-val" id="pyq-val-1009" onclick="pyqHideChip('pyq-val-1009')">False</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">AP increasing ⇒ MP &lt; AP?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1010-btn" onclick="pyqRevealChip('pyq-val-1010')">Reveal</button><span class="font-semibold text-rose-700 hidden pyq-val" id="pyq-val-1010" onclick="pyqHideChip('pyq-val-1010')">False</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">AP at max ⇒ MP = AP?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1011-btn" onclick="pyqRevealChip('pyq-val-1011')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1011" onclick="pyqHideChip('pyq-val-1011')">True</span></td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -982,11 +1092,11 @@
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left border-collapse">
                                     <tbody class="divide-y divide-slate-100">
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(TC=200+55q\): fixed cost / AVC@100</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5 font-semibold text-emerald-700">200 / 55</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(TC=100+25q+q^2\): AFC@100 / MC@25 / AVC@25</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1</td><td class="py-1.5 font-semibold text-emerald-700">1 / 75 / 50</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(TC=200+50q+q^2\): AFC@100 / MC@25 / AVC@25</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1</td><td class="py-1.5 font-semibold text-emerald-700">2 / 100 / 75</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(TC=300+50q+q^2\): AFC@50 / MC@50 / AVC@50</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2</td><td class="py-1.5 font-semibold text-emerald-700">6 / 150 / 100</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">MC = ATC ⇒ ATC is...</td><td class="py-1.5 pr-3 text-slate-400 text-xs">All 4 papers</td><td class="py-1.5 font-semibold text-emerald-700">Minimized</td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(TC=200+55q\): fixed cost / AVC@100</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1012-btn" onclick="pyqRevealChip('pyq-val-1012')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1012" onclick="pyqHideChip('pyq-val-1012')">200 / 55</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(TC=100+25q+q^2\): AFC@100 / MC@25 / AVC@25</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1013-btn" onclick="pyqRevealChip('pyq-val-1013')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1013" onclick="pyqHideChip('pyq-val-1013')">1 / 75 / 50</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(TC=200+50q+q^2\): AFC@100 / MC@25 / AVC@25</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1014-btn" onclick="pyqRevealChip('pyq-val-1014')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1014" onclick="pyqHideChip('pyq-val-1014')">2 / 100 / 75</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(TC=300+50q+q^2\): AFC@50 / MC@50 / AVC@50</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1015-btn" onclick="pyqRevealChip('pyq-val-1015')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1015" onclick="pyqHideChip('pyq-val-1015')">6 / 150 / 100</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">MC = ATC ⇒ ATC is...</td><td class="py-1.5 pr-3 text-slate-400 text-xs">All 4 papers</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1016-btn" onclick="pyqRevealChip('pyq-val-1016')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1016" onclick="pyqHideChip('pyq-val-1016')">Minimized</span></td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -997,15 +1107,15 @@
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left border-collapse">
                                     <tbody class="divide-y divide-slate-100">
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Chair: labour $30/hr, machine $15/hr → L*, K*</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1, 2024T2</td><td class="py-1.5 font-semibold text-emerald-700">0, 4</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Chair: labour $15/hr, machine $30/hr → L*, K*</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5 font-semibold text-emerald-700">4, 0</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(q=10L^{.5}K^{.5}\), w=20,r=80,100 units → L,K</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5 font-semibold text-emerald-700">20, 5</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(Q=50\sqrt{LK}\), w=5,r=20 → K/L, L*, K* (1000u)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1</td><td class="py-1.5 font-semibold text-emerald-700">1/4, 40, 10</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(Q=50\sqrt{LK}\), w=20,r=5 → K/L, L*, K* (1000u)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2</td><td class="py-1.5 font-semibold text-emerald-700">4, 10, 40</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(Q=10L+2K\), w=5,r=2 → MPL,MPK,L*,K*,TC (200u)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1</td><td class="py-1.5 font-semibold text-emerald-700">10, 2, 20, 0, 100</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(Q=5L+2K\), w=5,r=2 → MPL,MPK,L*,K*,TC (200u)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2</td><td class="py-1.5 font-semibold text-emerald-700">5, 2, 0, 100, 200</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(q=100KL\), K=₹1200/day, L=₹300/day → ratio, L*,K*,cost (10000u)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1</td><td class="py-1.5 font-semibold text-emerald-700">0.25, 20, 5, ₹12000</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">MPL=50, MRTS(L for K)=1/4 → MPK</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5 font-semibold text-emerald-700">200</td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Chair: labour $30/hr, machine $15/hr → L*, K*</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1, 2024T2</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1017-btn" onclick="pyqRevealChip('pyq-val-1017')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1017" onclick="pyqHideChip('pyq-val-1017')">0, 4</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Chair: labour $15/hr, machine $30/hr → L*, K*</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1018-btn" onclick="pyqRevealChip('pyq-val-1018')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1018" onclick="pyqHideChip('pyq-val-1018')">4, 0</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(q=10L^{.5}K^{.5}\), w=20,r=80,100 units → L,K</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1019-btn" onclick="pyqRevealChip('pyq-val-1019')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1019" onclick="pyqHideChip('pyq-val-1019')">20, 5</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(Q=50\sqrt{LK}\), w=5,r=20 → K/L, L*, K* (1000u)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1020-btn" onclick="pyqRevealChip('pyq-val-1020')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1020" onclick="pyqHideChip('pyq-val-1020')">1/4, 40, 10</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(Q=50\sqrt{LK}\), w=20,r=5 → K/L, L*, K* (1000u)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1021-btn" onclick="pyqRevealChip('pyq-val-1021')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1021" onclick="pyqHideChip('pyq-val-1021')">4, 10, 40</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(Q=10L+2K\), w=5,r=2 → MPL,MPK,L*,K*,TC (200u)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1022-btn" onclick="pyqRevealChip('pyq-val-1022')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1022" onclick="pyqHideChip('pyq-val-1022')">10, 2, 20, 0, 100</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(Q=5L+2K\), w=5,r=2 → MPL,MPK,L*,K*,TC (200u)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1023-btn" onclick="pyqRevealChip('pyq-val-1023')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1023" onclick="pyqHideChip('pyq-val-1023')">5, 2, 0, 100, 200</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(q=100KL\), K=₹1200/day, L=₹300/day → ratio, L*,K*,cost (10000u)</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1024-btn" onclick="pyqRevealChip('pyq-val-1024')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1024" onclick="pyqHideChip('pyq-val-1024')">0.25, 20, 5, ₹12000</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">MPL=50, MRTS(L for K)=1/4 → MPK</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1025-btn" onclick="pyqRevealChip('pyq-val-1025')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1025" onclick="pyqHideChip('pyq-val-1025')">200</span></td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -1016,15 +1126,15 @@
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left border-collapse">
                                     <tbody class="divide-y divide-slate-100">
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Confused / can't compare two goods → violates</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1</td><td class="py-1.5 font-semibold text-emerald-700">Completeness</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Mango&gt;Apple&gt;Guava&gt;Mango (circular) → violates</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1</td><td class="py-1.5 font-semibold text-emerald-700">Transitivity</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Elmo: 2Q+1D→1 drink. 4Q+2D→? drinks</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1, 2025T1</td><td class="py-1.5 font-semibold text-emerald-700">2</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Elmo: convex preferences (dimes/quarters)?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1, 2025T1</td><td class="py-1.5 font-semibold text-rose-700">No</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Coconut/fish, Pc=20,Pf=10,I=1000 → slope, intercepts</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5 font-semibold text-emerald-700">-2; 50(X)/100(Y)</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">→ Pc halved: new slope, new intercepts</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5 font-semibold text-emerald-700">-1; 100(X)/100(Y)</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">→ income halved instead</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5 font-semibold text-emerald-700">Slope same, intercepts halved</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(U(x,y)=y\sqrt{x}\): correct alternative</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2</td><td class="py-1.5 font-semibold text-emerald-700">More is better for both x,y</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(U(x,y)=y\sqrt{x}\): incorrect alternative</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2</td><td class="py-1.5 font-semibold text-emerald-700">Diminishing MU of y (it's constant)</td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Confused / can't compare two goods → violates</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1026-btn" onclick="pyqRevealChip('pyq-val-1026')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1026" onclick="pyqHideChip('pyq-val-1026')">Completeness</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Mango&gt;Apple&gt;Guava&gt;Mango (circular) → violates</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1027-btn" onclick="pyqRevealChip('pyq-val-1027')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1027" onclick="pyqHideChip('pyq-val-1027')">Transitivity</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Elmo: 2Q+1D→1 drink. 4Q+2D→? drinks</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1, 2025T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1028-btn" onclick="pyqRevealChip('pyq-val-1028')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1028" onclick="pyqHideChip('pyq-val-1028')">2</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Elmo: convex preferences (dimes/quarters)?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1, 2025T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1029-btn" onclick="pyqRevealChip('pyq-val-1029')">Reveal</button><span class="font-semibold text-rose-700 hidden pyq-val" id="pyq-val-1029" onclick="pyqHideChip('pyq-val-1029')">No</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Coconut/fish, Pc=20,Pf=10,I=1000 → slope, intercepts</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1030-btn" onclick="pyqRevealChip('pyq-val-1030')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1030" onclick="pyqHideChip('pyq-val-1030')">-2; 50(X)/100(Y)</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">→ Pc halved: new slope, new intercepts</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1031-btn" onclick="pyqRevealChip('pyq-val-1031')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1031" onclick="pyqHideChip('pyq-val-1031')">-1; 100(X)/100(Y)</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">→ income halved instead</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T2, 2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1032-btn" onclick="pyqRevealChip('pyq-val-1032')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1032" onclick="pyqHideChip('pyq-val-1032')">Slope same, intercepts halved</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(U(x,y)=y\sqrt{x}\): correct alternative</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1033-btn" onclick="pyqRevealChip('pyq-val-1033')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1033" onclick="pyqHideChip('pyq-val-1033')">More is better for both x,y</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">\(U(x,y)=y\sqrt{x}\): incorrect alternative</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1034-btn" onclick="pyqRevealChip('pyq-val-1034')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1034" onclick="pyqHideChip('pyq-val-1034')">Diminishing MU of y (it's constant)</span></td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -1035,11 +1145,11 @@
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left border-collapse">
                                     <tbody class="divide-y divide-slate-100">
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Snack business: explicit costs include</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1/T2, 2026T1</td><td class="py-1.5 font-semibold text-emerald-700">All of these</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Snack business: implicit cost is</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1/T2, 2026T1</td><td class="py-1.5 font-semibold text-emerald-700">Foregone $6/hr dining-hall wage</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Fritos $100, refund 0.25/$, frat $55 → opp. cost / sell?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1/T2, 2025T1</td><td class="py-1.5 font-semibold text-emerald-700">$25 / Yes</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">→ sunk cost</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1</td><td class="py-1.5 font-semibold text-emerald-700">$75</td></tr>
-                                        <tr><td class="py-1.5 pr-3 text-slate-700">Fritos $200, refund 0.5/$, frat $125 → opp. cost / sell?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2, 2026T1</td><td class="py-1.5 font-semibold text-emerald-700">$100 / Yes</td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Snack business: explicit costs include</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1/T2, 2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1035-btn" onclick="pyqRevealChip('pyq-val-1035')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1035" onclick="pyqHideChip('pyq-val-1035')">All of these</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Snack business: implicit cost is</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1/T2, 2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1036-btn" onclick="pyqRevealChip('pyq-val-1036')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1036" onclick="pyqHideChip('pyq-val-1036')">Foregone $6/hr dining-hall wage</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Fritos $100, refund 0.25/$, frat $55 → opp. cost / sell?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2024T1/T2, 2025T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1037-btn" onclick="pyqRevealChip('pyq-val-1037')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1037" onclick="pyqHideChip('pyq-val-1037')">$25 / Yes</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">→ sunk cost</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1038-btn" onclick="pyqRevealChip('pyq-val-1038')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1038" onclick="pyqHideChip('pyq-val-1038')">$75</span></td></tr>
+                                        <tr><td class="py-1.5 pr-3 text-slate-700">Fritos $200, refund 0.5/$, frat $125 → opp. cost / sell?</td><td class="py-1.5 pr-3 text-slate-400 text-xs">2025T2, 2026T1</td><td class="py-1.5"><button type="button" class="reveal-chip" id="pyq-val-1039-btn" onclick="pyqRevealChip('pyq-val-1039')">Reveal</button><span class="font-semibold text-emerald-700 hidden pyq-val" id="pyq-val-1039" onclick="pyqHideChip('pyq-val-1039')">$100 / Yes</span></td></tr>
                                     </tbody>
                                 </table>
                             </div>
