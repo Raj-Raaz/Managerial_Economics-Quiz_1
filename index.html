@@ -202,18 +202,46 @@
                             <h3 class="text-xl font-semibold text-slate-800 border-b pb-2 mb-3">Production Functions</h3>
                             <p class="mb-4 text-sm text-slate-600 bg-slate-100 p-3 rounded border"><strong>Key Symbols:</strong> \( q \) or \( Q \) = Total Output, \( L \) = Labor (workers), \( K \) = Capital (machinery), \( A \) = Total Factor Productivity (technology level).</p>
                             
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div class="bg-slate-50 p-4 rounded-lg border border-slate-100">
                                     <h4 class="font-bold text-indigo-600 mb-1">Cobb-Douglas</h4>
-                                    <p class="mb-2">Formula: \( q = A L^p K^q \)</p>
-                                    <p class="text-sm">Where \( p \) and \( q \) are output elasticities of Labor and Capital. Returns to scale are determined by \( p + q \). If \( p + q = 1 \) (constant), \( > 1 \) (increasing), \( < 1 \) (decreasing).</p>
+                                    <p class="mb-2">Formula: \( Q = A L^{\alpha} K^{\beta} \)</p>
+                                    <p class="text-sm">\( \alpha \) and \( \beta \) are the output elasticities of Labor and Capital. Returns to scale are determined by \( \alpha+\beta \): \( =1 \) constant, \( >1 \) increasing, \( <1 \) decreasing. Inputs are smoothly substitutable — isoquants are curved.</p>
+                                    <p class="text-xs text-slate-500 mt-2">Exam papers often write this as \( F(K,L)=K^pL^q \) instead — same function, just check which exponent sits on which variable.</p>
                                 </div>
                                 <div class="bg-slate-50 p-4 rounded-lg border border-slate-100">
                                     <h4 class="font-bold text-indigo-600 mb-1">Linear Function</h4>
-                                    <p class="mb-2">Formula: \( q = aL + bK \)</p>
-                                    <p class="text-sm">Inputs are perfect substitutes. Marginal products are constant. Here, \( a \) is the output per unit of labor, and \( b \) is the output per unit of capital.</p>
+                                    <p class="mb-2">Formula: \( Q = aL + bK \)</p>
+                                    <p class="text-sm">Inputs are <strong>perfect substitutes</strong>. Marginal products are constant (\( MP_L=a \), \( MP_K=b \)). Isoquants are straight lines — cost-minimization is always a <strong>corner solution</strong> (use only the cheaper input).</p>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-lg border border-slate-100">
+                                    <h4 class="font-bold text-indigo-600 mb-1">Leontief Function</h4>
+                                    <p class="mb-2">Formula: \( Q = \min(aL,\, bK) \)</p>
+                                    <p class="text-sm">Inputs are <strong>perfect complements</strong> — used in a fixed ratio, with zero substitutability. Extra of either input beyond the required ratio is wasted. Isoquants are L-shaped ("right angles").</p>
+                                    <p class="text-xs text-slate-500 mt-2">Cue: "exactly 2 workers per machine", "requires exact change" — any fixed-ratio wording signals Leontief.</p>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+                            <h4 class="font-bold text-indigo-800 mb-2 flex items-center gap-2">🔗 Which production function am I looking at?</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left border-collapse">
+                                    <thead>
+                                        <tr class="text-indigo-900">
+                                            <th class="py-1 pr-3 font-semibold">Type</th>
+                                            <th class="py-1 pr-3 font-semibold">MRTS behaviour</th>
+                                            <th class="py-1 font-semibold">Cost-min rule</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-indigo-900">
+                                        <tr class="border-t border-indigo-200"><td class="py-1 pr-3">Cobb-Douglas</td><td class="py-1 pr-3">Diminishes smoothly along the isoquant</td><td class="py-1">Tangency: \(MP_L/MP_K=w/r\)</td></tr>
+                                        <tr class="border-t border-indigo-200"><td class="py-1 pr-3">Linear</td><td class="py-1 pr-3">Constant (isoquant is a straight line)</td><td class="py-1">Corner: use only the cheaper input</td></tr>
+                                        <tr class="border-t border-indigo-200"><td class="py-1 pr-3">Leontief</td><td class="py-1 pr-3">Undefined at the kink (isoquant is L-shaped)</td><td class="py-1">Fixed ratio: no optimization needed</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="text-xs text-indigo-700 mt-2">Full worked mechanics for each case are in <a href="#cost-minimization" class="underline font-semibold">Section 3 — Cost Minimization</a>.</p>
                         </div>
 
                         <div>
@@ -454,6 +482,18 @@
 
                     <p class="text-slate-700 mb-4">You will frequently be given a <strong>Total Cost (TC)</strong> function, representing the total expense to produce a given quantity (\( q \)). E.g., \( TC = 300 + 50q + q^2 \). You must derive the following:</p>
 
+                    <div class="bg-teal-50 border border-teal-200 rounded-lg p-4 mb-5">
+                        <h4 class="font-bold text-teal-800 mb-2 flex items-center gap-2">🔗 Where does TC(q) actually come from?</h4>
+                        <p class="text-sm text-teal-900 mb-2">Cost is just the price-tag on the inputs used in production. For any input bundle:</p>
+                        <p class="text-center font-mono text-lg text-teal-900 bg-white rounded border border-teal-200 py-2 my-2">\( TC = w \cdot L + r \cdot K \)</p>
+                        <p class="text-sm text-teal-900">In the <strong>short run</strong>, capital is fixed at some level \( \bar{K} \), so:</p>
+                        <ul class="text-sm text-teal-900 list-disc list-inside mt-1 space-y-1">
+                            <li>\( FC = r\bar{K} \) — a constant, since \( \bar{K} \) doesn't change with output.</li>
+                            <li>\( VC = wL \) — grows as you hire more labor to raise output.</li>
+                        </ul>
+                        <p class="text-sm text-teal-900 mt-2">Invert the production function \( q=f(L,\bar{K}) \) to get \( L \) as a function of \( q \), substitute into \( VC=wL \), and you've built \( TC(q) = r\bar{K} + wL(q) \) — the exact function this section hands you ready-made.</p>
+                    </div>
+
                     <div class="overflow-x-auto border rounded-lg">
                         <table class="w-full text-left border-collapse">
                             <thead>
@@ -466,12 +506,12 @@
                             <tbody class="text-slate-700">
                                 <tr>
                                     <td class="p-3 border-b font-medium text-teal-800">Fixed Cost (FC)</td>
-                                    <td class="p-3 border-b">Costs that do not change with output. The constant term independent of \( q \).</td>
+                                    <td class="p-3 border-b">Costs that do not change with output. The constant term independent of \( q \). \( (=r\bar{K}) \)</td>
                                     <td class="p-3 border-b font-mono text-sm">\( 300 \)</td>
                                 </tr>
                                 <tr class="bg-slate-50">
                                     <td class="p-3 border-b font-medium text-teal-800">Variable Cost (VC)</td>
-                                    <td class="p-3 border-b">Costs that change as output increases. All terms containing \( q \).</td>
+                                    <td class="p-3 border-b">Costs that change as output increases. All terms containing \( q \). \( (=wL) \)</td>
                                     <td class="p-3 border-b font-mono text-sm">\( 50q + q^2 \)</td>
                                 </tr>
                                 <tr>
@@ -485,9 +525,14 @@
                                     <td class="p-3 border-b font-mono text-sm">\( \frac{300}{q} \)</td>
                                 </tr>
                                 <tr>
-                                    <td class="p-3 border-b font-medium text-teal-800">Marginal Cost (MC)</td>
-                                    <td class="p-3 border-b">The cost of producing one additional unit. Derivative of TC with respect to q: \( \frac{d(TC)}{dq} \)</td>
-                                    <td class="p-3 border-b font-mono text-sm">\( 50 + 2q \)</td>
+                                    <td class="p-3 border-b font-medium text-teal-800">Average Total Cost (ATC)</td>
+                                    <td class="p-3 border-b">Total cost per unit produced.<br>\( \frac{TC}{q} = AFC + AVC \)</td>
+                                    <td class="p-3 border-b font-mono text-sm">\( \frac{300}{q} + 50 + q \)</td>
+                                </tr>
+                                <tr class="bg-slate-50">
+                                    <td class="p-3 font-medium text-teal-800">Marginal Cost (MC)</td>
+                                    <td class="p-3">The cost of producing one additional unit. Derivative of TC with respect to q: \( \frac{d(TC)}{dq} \)</td>
+                                    <td class="p-3 font-mono text-sm">\( 50 + 2q \)</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -584,7 +629,14 @@
                     </div>
 
                     <div class="mb-6">
-                        <p class="text-slate-700 mb-2">The core rule for minimizing costs (finding the optimal input combination of Labor and Capital) is equalizing the "bang for the buck" across inputs.</p>
+                        <p class="text-slate-700 mb-2">Cost minimization means: pick the input bundle \((L,K)\) that produces your target output \(Q\) at the lowest possible spend.</p>
+
+                        <div class="bg-rose-50 border border-rose-200 rounded-lg p-4 mb-4">
+                            <p class="text-sm text-rose-900 mb-1">Minimize: <span class="font-mono font-semibold">\( TC = w \cdot L + r \cdot K \)</span></p>
+                            <p class="text-sm text-rose-900">Subject to: <span class="font-mono font-semibold">\( Q = f(L,K) \)</span> (your production function, held at the target output)</p>
+                        </div>
+
+                        <p class="text-slate-700 mb-2">The core rule for a smoothly-substitutable (Cobb-Douglas) production function is equalizing the "bang for the buck" across inputs.</p>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
                             <div class="bg-slate-100 p-4 rounded-lg flex flex-col justify-center items-center">
@@ -606,16 +658,40 @@
                                 <li><strong>MRTS:</strong> The rate at which a firm can substitute Capital for Labor while keeping output constant (\( MP_L / MP_K \)).</li>
                             </ul>
                         </div>
+
+                        <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mt-4">
+                            <h4 class="font-bold text-indigo-800 mb-2">⚡ Shortcut for Cobb-Douglas, \( Q = AL^{\alpha}K^{\beta} \)</h4>
+                            <p class="text-sm text-indigo-900 mb-2">Since \( MP_L = \alpha \frac{Q}{L} \) and \( MP_K = \beta \frac{Q}{K} \), the tangency condition collapses to a one-line formula relating the input ratio directly to the price ratio:</p>
+                            <p class="text-center font-mono text-lg text-indigo-900 bg-white rounded border border-indigo-200 py-2 my-2">\( \dfrac{MP_L}{MP_K} = \dfrac{\alpha}{\beta}\cdot\dfrac{K}{L} = \dfrac{w}{r} \)</p>
+                            <p class="text-sm text-indigo-900">Rearranged, this gives the optimal capital-labor ratio in one step — no calculus needed once you know \( \alpha,\beta,w,r \):</p>
+                            <p class="text-center font-mono text-lg text-indigo-900 bg-white rounded border border-indigo-200 py-2 my-2">\( \dfrac{K^*}{L^*} = \dfrac{\beta}{\alpha}\cdot\dfrac{w}{r} \)</p>
+                            <p class="text-xs text-indigo-700">Then plug \( K = \frac{\beta}{\alpha}\frac{w}{r}L \) into \( Q=AL^{\alpha}K^{\beta} \) to solve for the exact \( L^*, K^* \) at your target output. If your paper's exponents are on \(K\) first (\(F(K,L)=K^pL^q\)), the same logic gives \( K^*/L^* = \frac{q}{p}\cdot\frac{w}{r} \) — just match each exponent to its own variable.</p>
+                        </div>
                     </div>
 
                     <div class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-r-lg">
-                        <h3 class="font-bold text-rose-800 mb-2">Algorithm to solve minimization problems:</h3>
+                        <h3 class="font-bold text-rose-800 mb-2">Algorithm to solve minimization problems (Cobb-Douglas / smooth substitution):</h3>
                         <ol class="list-decimal list-inside space-y-2 text-rose-900">
                             <li>Calculate \( MP_L \) and \( MP_K \) by taking the derivative of the production function.</li>
                             <li>Set up the optimality condition: \( \frac{MP_L}{MP_K} = \frac{w}{r} \).</li>
                             <li>Solve the equation to find one variable in terms of the other (e.g., you might find \( K = 2L \)).</li>
                             <li>Substitute this relationship back into the target production function (e.g., \( Q = ... \)) or cost budget to find the exact numerical values for optimal Labor (\( L^* \)) and Capital (\( K^* \)).</li>
                         </ol>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-slate-50 border-l-4 border-slate-400 p-4 rounded-r-lg">
+                            <h3 class="font-bold text-slate-800 mb-2">Linear \( Q=aL+bK \) → corner solution</h3>
+                            <p class="text-sm text-slate-700">Perfect substitutes have <em>no</em> tangency point — MRTS (\(=a/b\)) is constant and generally won't equal \(w/r\) exactly. Compare cost-per-unit-of-output for each input instead:</p>
+                            <p class="font-mono text-sm text-slate-800 my-2 text-center">Labor: \( w/a \) &nbsp; vs &nbsp; Capital: \( r/b \)</p>
+                            <p class="text-sm text-slate-700">Use <strong>100% of whichever input is cheaper per unit of output</strong>. (This is exactly the "chair manufacturer" pattern — pick machinery or labour entirely, never a mix.)</p>
+                        </div>
+                        <div class="bg-slate-50 border-l-4 border-slate-400 p-4 rounded-r-lg">
+                            <h3 class="font-bold text-slate-800 mb-2">Leontief \( Q=\min(aL,bK) \) → fixed ratio</h3>
+                            <p class="text-sm text-slate-700">Perfect complements have a kinked isoquant — the optimum is always <em>at</em> the kink, regardless of \(w\) and \(r\). No price comparison needed:</p>
+                            <p class="font-mono text-sm text-slate-800 my-2 text-center">Set \( aL = bK \) &nbsp;\(\Rightarrow\)&nbsp; \( \dfrac{L}{K}=\dfrac{b}{a} \)</p>
+                            <p class="text-sm text-slate-700">Then substitute into \( Q=aL=bK \) to size \(L^*,K^*\) to the target output. (E.g. "2 workers per machine" \(\Rightarrow L=2K\).)</p>
+                        </div>
                     </div>
 
                     <!-- PYQ Block: Cost Minimization -->
@@ -957,6 +1033,33 @@
                         <div class="border-l-4 border-emerald-500 pl-4 py-1">
                             <h4 class="font-bold text-lg text-emerald-800">Sunk Costs</h4>
                             <p>Costs that have already been incurred and cannot be recovered under any circumstances. Economic theory dictates they should be <strong>completely ignored</strong> in forward-looking decisions.</p>
+                        </div>
+
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                            <h4 class="font-bold text-emerald-800 mb-3">Key Formulas</h4>
+                            <div class="grid sm:grid-cols-2 gap-3 text-sm">
+                                <div class="bg-white rounded border border-emerald-100 p-3">
+                                    <p class="font-mono font-semibold text-emerald-900">Opportunity Cost</p>
+                                    <p class="text-slate-600">= Value of the best forgone alternative</p>
+                                </div>
+                                <div class="bg-white rounded border border-emerald-100 p-3">
+                                    <p class="font-mono font-semibold text-emerald-900">Sunk Cost</p>
+                                    <p class="text-slate-600">= Amount already paid − Recoverable / salvage value</p>
+                                </div>
+                                <div class="bg-white rounded border border-emerald-100 p-3">
+                                    <p class="font-mono font-semibold text-emerald-900">Economic Cost</p>
+                                    <p class="text-slate-600">= Explicit Cost + Implicit Cost</p>
+                                </div>
+                                <div class="bg-white rounded border border-emerald-100 p-3">
+                                    <p class="font-mono font-semibold text-emerald-900">Accounting Profit</p>
+                                    <p class="text-slate-600">= Total Revenue − Explicit Cost</p>
+                                </div>
+                                <div class="bg-white rounded border border-emerald-100 p-3 sm:col-span-2">
+                                    <p class="font-mono font-semibold text-emerald-900">Economic Profit</p>
+                                    <p class="text-slate-600">= Total Revenue − Economic Cost = Accounting Profit − Implicit Cost</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-emerald-700 mt-3">This is why a business can show positive <em>accounting</em> profit while its owner is still economically better off doing something else — implicit costs (like the $6/hr foregone wage below) are real costs that accounting statements skip.</p>
                         </div>
 
                         <div class="bg-slate-100 p-5 rounded-lg mt-6 shadow-inner">
